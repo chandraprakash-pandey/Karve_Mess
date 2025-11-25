@@ -89,6 +89,8 @@ router.post('/login', async (req, res) => {
 
     } catch (err) {
         console.error(err);
+        console.log("Error in backend POST LOgin");
+        
         return res.status(500).json({ error: "Signup failed" });
     }
 })

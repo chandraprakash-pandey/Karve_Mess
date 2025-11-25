@@ -67,6 +67,8 @@ function Login() {
             // console.log("Login successful:", res.data);
             navigate("/user");
         } catch (error) {
+            console.log("erorr in frotnend handle submitt");
+            
             console.error("Error logging in:", error);
             setErrors({ 
                 submit: error.response?.data?.message || "Login failed. Please check your credentials." 
