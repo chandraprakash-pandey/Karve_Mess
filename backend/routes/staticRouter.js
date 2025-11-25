@@ -4,13 +4,6 @@ import { Router } from "express"
 
 const router = Router();
 
-router.get('/signup', (req, res) => {
-    return res.send("signup")
-})
-
-router.get('/login', (req, res) => {
-    return res.send("Login")
-})
 
 router.get('/subs', async (req, res) => {
     try {
