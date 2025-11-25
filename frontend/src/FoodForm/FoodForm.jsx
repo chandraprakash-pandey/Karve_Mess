@@ -10,6 +10,7 @@ import Days from "./Days";
 
 function FoodForm() {
   // --- State Management ---
+  const apiUrl = import.meta.env.VITE_BACKEND_URL;
   const [user, setUser] = useState({});
   const navigate = useNavigate();
   const [foods, setFoods] = useState([{ name: "", price: "" }]);
@@ -55,7 +56,7 @@ function FoodForm() {
 
   // --- Effects ---
   useEffect(() => {
-    axios.get("https://karve-mess-backend.onrender.com/user", { withCredentials: true })
+    axios.get(`${apiUrl}/user`, { withCredentials: true })
       .then(res => {
         setUser(res.data);
         if (res.data.subscribed) setSubs(true);
@@ -74,7 +75,7 @@ function FoodForm() {
   }, [subs, loading]);
 
   useEffect(() => {
-    axios.get("https://karve-mess-backend.onrender.com/myItems", { withCredentials: true })
+    axios.get(`${apiUrl}/myItems`, { withCredentials: true })
       .then(res => {
         const cnt = res.data.filter(obj => obj.day === day).length;
         setIsAllowed(cnt > 0);
@@ -105,7 +106,7 @@ function FoodForm() {
       if (food.name.trim() !== "") itemsMap[food.name] = Number(food.price);
     });
 
-    axios.post("https://karve-mess-backend.onrender.com/fooditems", { chefId: user._id, item: itemsMap, day }, { withCredentials: true })
+    axios.post(`${apiUrl}/fooditems`, { chefId: user._id, item: itemsMap, day }, { withCredentials: true })
       .then(() => {
         setFoods([{ name: "", price: "" }]);
         navigate("/Menu");

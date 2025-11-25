@@ -5,6 +5,7 @@ import { User, Mail, Lock, Building2, MapPin, ArrowRight, CheckCircle2 } from "l
 
 function Signup() {
   const navigate = useNavigate();
+  const apiUrl = import.meta.env.VITE_BACKEND_URL;
 
   const [formData, setFormData] = useState({
     fullName: "",
@@ -18,7 +19,7 @@ function Signup() {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    axios.get("https://karve-mess-backend.onrender.com/user", { withCredentials: true })
+    axios.get(`${apiUrl}/user`, { withCredentials: true })
             .then(res => {
               window.location.href = "/User";
             })
@@ -61,7 +62,7 @@ function Signup() {
     setIsLoading(true);
     
     try {
-      const res = await axios.post("https://karve-mess-backend.onrender.com/signup", formData);
+      const res = await axios.post(`${apiUrl}/signup`, formData);
       // console.log("Signup successful:", res.data);
       navigate("/Login");
     } catch (error) {

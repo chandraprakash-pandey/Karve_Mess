@@ -5,11 +5,12 @@ import axios from "axios";
 function Menu() {
     const [menuItems, setMenuItems] = useState([]);
     const [loading, setLoading] = useState(true);
+    const apiUrl = import.meta.env.VITE_BACKEND_URL;
 
     useEffect(() => {
         const fetchMenuItems = async () => {
             try {
-                const response = await fetch("https://karve-mess-backend.onrender.com/menu");
+                const response = await fetch(`${apiUrl}/menu`);
                 const data = await response.json();
                 setMenuItems(data);
             } catch (error) {

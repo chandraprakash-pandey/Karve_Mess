@@ -9,9 +9,10 @@ function Subs() {
     const [hours, setHours] = useState(0);
     const [minutes, setMinutes] = useState(0);
     const [seconds, setSeconds] = useState(0);
+    const apiUrl = import.meta.env.VITE_BACKEND_URL;
 
     useEffect(() => {
-        axios.get("https://karve-mess-backend.onrender.com/user", { withCredentials: true })
+        axios.get(`${apiUrl}/user`, { withCredentials: true })
             .then(res => setUser(res.data))
             .catch(err => {
                 if (err.response?.status === 401) {
@@ -23,7 +24,7 @@ function Subs() {
     useEffect(() => {
         let intervalId = null;
 
-        axios.get("https://karve-mess-backend.onrender.com/subs", { withCredentials: true })
+        axios.get(`${apiUrl}/subs`, { withCredentials: true })
             .then(res => {
                 if (res.data.doe == null) return;
 
@@ -65,10 +66,10 @@ function Subs() {
 
     const checkoutHandler = async () => {
         const amount = 10;
-        const { data: keyData } = await axios.get("https://karve-mess-backend.onrender.com/api/getKey")
+        const { data: keyData } = await axios.get(`${apiUrl}/api/getKey`)
         const { key } = keyData;
 
-        const { data: orderData } = await axios.post("https://karve-mess-backend.onrender.com/api/payment/process", {
+        const { data: orderData } = await axios.post(`${apiUrl}/api/payment/process`, {
             amount
         })
 
@@ -81,7 +82,7 @@ function Subs() {
             name: 'Chandraprakash Pandey',
             description: 'Razorpay Integration Tutorial',
             order_id: order.id,
-            callback_url: 'https://karve-mess-backend.onrender.com/api/paymentVerification',
+            callback_url: `${apiUrl}/api/paymentVerification`,
             prefill: {
                 name: 'Chandraprakash Pandey',
                 email: 'pandey.kumar@example.com',

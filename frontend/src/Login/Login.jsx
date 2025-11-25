@@ -5,6 +5,7 @@ import { Mail, Lock, ArrowRight, LogIn, Eye, EyeOff } from "lucide-react";
 
 function Login() {
     const navigate = useNavigate();
+    const apiUrl = import.meta.env.VITE_BACKEND_URL;
 
     const [formData, setFormData] = useState({
         email: "",
@@ -18,7 +19,7 @@ function Login() {
 
     
     useEffect(() => {
-        axios.get("https://karve-mess-backend.onrender.com/user", { withCredentials: true })
+        axios.get(`${apiUrl}/user`, { withCredentials: true })
             .then(res => {
               window.location.href = "/User";
             })
@@ -56,7 +57,7 @@ function Login() {
         setIsLoading(true);
 
         try {
-            const res = await axios.post("https://karve-mess-backend.onrender.com/login", {
+            const res = await axios.post(`${apiUrl}/login`, {
                 email: formData.email,
                 password: formData.password,
             }, {

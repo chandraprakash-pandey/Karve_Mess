@@ -45,7 +45,7 @@ export const paymentVerification = async (req,res) => {
 
         await User.findByIdAndUpdate(userId, {subscribed: true, date_of_purchase: date_of_purchase, date_of_expire: date_of_expire}, {new: true});
         
-        return res.redirect(`https://karve-mess-frontend.onrender.com/user`)
+        return res.redirect(`${process.env.FRONTEND_URL}/user`)
     }else{
         res.status(404).json({
         success:false

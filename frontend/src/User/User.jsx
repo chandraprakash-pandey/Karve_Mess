@@ -13,6 +13,7 @@ function UserDashboard() {
     const [hours, setHours] = useState(0);
     const [minutes, setMinutes] = useState(0);
     const [seconds, setSeconds] = useState(0);
+    const apiUrl = import.meta.env.VITE_BACKEND_URL;
 
 
     useEffect(() => {
@@ -26,7 +27,7 @@ function UserDashboard() {
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const res = await axios.get("https://karve-mess-backend.onrender.com/user", {
+                const res = await axios.get(`${apiUrl}/user`, {
                     withCredentials: true
                 });
                 setUser(res.data);
@@ -49,7 +50,7 @@ function UserDashboard() {
     useEffect(() => {
         let intervalId = null;
 
-        axios.get("https://karve-mess-backend.onrender.com/subs", { withCredentials: true })
+        axios.get(`${apiUrl}/subs`, { withCredentials: true })
             .then(res => {
                 if (res.data.doe == null) return;
 
@@ -101,7 +102,7 @@ function UserDashboard() {
     }, []);
 
     useEffect(() => {
-        axios.get("https://karve-mess-backend.onrender.com/myItems", { withCredentials: true })
+        axios.get(`${apiUrl}/myItems`, { withCredentials: true })
             .then(res => setFoodItems(res.data))
             .catch(err => {
                 if (err.response?.status === 401) {

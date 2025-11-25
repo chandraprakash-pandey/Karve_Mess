@@ -29,6 +29,7 @@ const NavItem = ({ to, icon: Icon, label, onClick, isPremium, className }) => (
 );
 
 function Header() {
+    const apiUrl = import.meta.env.VITE_BACKEND_URL;
     const [isOpen, setIsOpen] = useState(false);
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -50,7 +51,7 @@ function Header() {
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const res = await axios.get("https://karve-mess-backend.onrender.com/user", { withCredentials: true });
+                const res = await axios.get(`${apiUrl}/user`, { withCredentials: true });
                 setUser(res.data);
                 setSubs(res.data.subscribed);
             } catch (err) {
@@ -69,7 +70,7 @@ function Header() {
     // Timer Logic
     useEffect(() => {
         let intervalId = null;
-        axios.get("https://karve-mess-backend.onrender.com/subs", { withCredentials: true })
+        axios.get(`${apiUrl}/subs`, { withCredentials: true })
             .then(res => {
                 if (res.data.doe == null) return;
                 const target = new Date(res.data.doe);
@@ -101,7 +102,7 @@ function Header() {
 
     const handleLogout = async () => {
         try {
-            await axios.get("https://karve-mess-backend.onrender.com/logout", { withCredentials: true });
+            await axios.get(`${apiUrl}/logout`, { withCredentials: true });
             setUser(null);
             navigate("/login");
             setIsOpen(false);

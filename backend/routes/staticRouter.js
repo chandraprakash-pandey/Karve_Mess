@@ -85,12 +85,7 @@ router.post('/login', async (req, res) => {
     try {
         const token = await User.matchPasswordAndGenerateToken(email, password);
 
-        return res.cookie('token', token, {
-            httpOnly: true,
-            secure: true,
-            sameSite: "None",
-            maxAge: 24 * 60 * 60 * 1000
-        }).json({ message: "Login Successful" });
+        return res.cookie('token', token).json({ message: "Login Successful" });
 
     } catch (err) {
         console.error(err);

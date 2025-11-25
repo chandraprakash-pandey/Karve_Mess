@@ -21,7 +21,7 @@ const app = express()
 const PORT = process.env.PORT || 8000;
 
 app.use(express.urlencoded({extended:true}));
-app.use(cors({ origin: 'https://karve-mess-frontend.onrender.com', credentials: true }));
+app.use(cors({ origin: `${process.env.FRONTEND_URL}`, credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
 app.use(checkForAuthentication)
