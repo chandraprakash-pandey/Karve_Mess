@@ -46,7 +46,7 @@ function EditItem() {
 
   // --- Effects ---
   useEffect(() => {
-    axios.get("http://localhost:8000/user", { withCredentials: true })
+    axios.get("https://karve-mess-backend.onrender.com", { withCredentials: true })
       .then(res => {
         setUser(res.data);
         if (res.data.subscribed) setSubs(true);
@@ -59,7 +59,7 @@ function EditItem() {
   }, []);
 
   useEffect(() => {
-    axios.get(`http://localhost:8000/editItem/${itemId}`, { withCredentials: true })
+    axios.get(`https://karve-mess-backend.onrender.com/editItem/${itemId}`, { withCredentials: true })
       .then(res => {
         // Convert object back to array for form handling
         setFoods(Object.entries(res.data.item).map(([name, price]) => ({ name, price })));
@@ -87,7 +87,7 @@ function EditItem() {
   };
 
   const deleteItem = () => {
-    axios.delete(`http://localhost:8000/editItem/${itemId}`, { withCredentials: true })
+    axios.delete(`https://karve-mess-backend.onrender.com/editItem/${itemId}`, { withCredentials: true })
       .then(() => navigate("/Menu"))
       .catch(err => console.error(err));
   };
@@ -105,7 +105,7 @@ function EditItem() {
 
     const payload = { item: itemsMap };
 
-    axios.patch(`http://localhost:8000/editItem/${itemId}`, payload, { withCredentials: true })
+    axios.patch(`https://karve-mess-backend.onrender.com/editItem/${itemId}`, payload, { withCredentials: true })
       .then(() => navigate("/Menu"))
       .catch(err => console.error(err))
       .finally(() => setIsSubmitting(false));

@@ -18,7 +18,7 @@ function Signup() {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    axios.get("http://localhost:8000/user", { withCredentials: true })
+    axios.get("https://karve-mess-backend.onrender.com/user", { withCredentials: true })
             .then(res => {
               window.location.href = "/User";
             })
@@ -61,7 +61,7 @@ function Signup() {
     setIsLoading(true);
     
     try {
-      const res = await axios.post("http://localhost:8000/signup", formData);
+      const res = await axios.post("https://karve-mess-backend.onrender.com/signup", formData);
       // console.log("Signup successful:", res.data);
       navigate("/Login");
     } catch (error) {

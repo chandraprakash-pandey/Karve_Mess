@@ -26,7 +26,7 @@ function UserDashboard() {
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const res = await axios.get("http://localhost:8000/user", {
+                const res = await axios.get("https://karve-mess-backend.onrender.com/user", {
                     withCredentials: true
                 });
                 setUser(res.data);
@@ -49,7 +49,7 @@ function UserDashboard() {
     useEffect(() => {
         let intervalId = null;
 
-        axios.get("http://localhost:8000/subs", { withCredentials: true })
+        axios.get("https://karve-mess-backend.onrender.com/subs", { withCredentials: true })
             .then(res => {
                 if (res.data.doe == null) return;
 
@@ -101,7 +101,7 @@ function UserDashboard() {
     }, []);
 
     useEffect(() => {
-        axios.get("http://localhost:8000/myItems", { withCredentials: true })
+        axios.get("https://karve-mess-backend.onrender.com/myItems", { withCredentials: true })
             .then(res => setFoodItems(res.data))
             .catch(err => {
                 if (err.response?.status === 401) {

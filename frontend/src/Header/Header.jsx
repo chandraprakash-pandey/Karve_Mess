@@ -50,7 +50,7 @@ function Header() {
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const res = await axios.get("http://localhost:8000/user", { withCredentials: true });
+                const res = await axios.get("https://karve-mess-backend.onrender.com/user", { withCredentials: true });
                 setUser(res.data);
                 setSubs(res.data.subscribed);
             } catch (err) {
@@ -69,7 +69,7 @@ function Header() {
     // Timer Logic
     useEffect(() => {
         let intervalId = null;
-        axios.get("http://localhost:8000/subs", { withCredentials: true })
+        axios.get("https://karve-mess-backend.onrender.com/subs", { withCredentials: true })
             .then(res => {
                 if (res.data.doe == null) return;
                 const target = new Date(res.data.doe);
@@ -101,7 +101,7 @@ function Header() {
 
     const handleLogout = async () => {
         try {
-            await axios.get("http://localhost:8000/logout", { withCredentials: true });
+            await axios.get("https://karve-mess-backend.onrender.com/logout", { withCredentials: true });
             setUser(null);
             navigate("/login");
             setIsOpen(false);

@@ -15,7 +15,7 @@ function Layout() {
       try {
         // console.l9og("aaaaa");
         
-        const res = await axios.get("http://localhost:8000/user", {
+        const res = await axios.get("https://karve-mess-backend.onrender.com/user", {
           withCredentials: true
         });
 
@@ -50,7 +50,7 @@ function Layout() {
 
   useEffect(() => {
     if (user != null && !subs) {
-      axios.delete("http://localhost:8000/subs", { withCredentials: true })
+      axios.delete("https://karve-mess-backend.onrender.com/subs", { withCredentials: true })
         .then(res => {
           // console.log("All items are deleted");
         })
@@ -64,7 +64,7 @@ function Layout() {
   useEffect(() => {
     let intervalId = null;
 
-    axios.get("http://localhost:8000/subs", { withCredentials: true })
+    axios.get("https://karve-mess-backend.onrender.com/subs", { withCredentials: true })
       .then(res => {
         // console.log("Get one");
 
@@ -78,7 +78,7 @@ function Layout() {
           const diffMs = target - now;
           if (diffMs <= 0) {
 
-            axios.delete("http://localhost:8000/subs", { withCredentials: true })
+            axios.delete("https://karve-mess-backend.onrender.com/subs", { withCredentials: true })
               .then(res => {
                 console.log("All items are deleted");
 
@@ -88,7 +88,7 @@ function Layout() {
                 console.log(err);
               })
 
-            axios.post('http://localhost:8000/subs', { chk: false }, { withCredentials: true })
+            axios.post('https://karve-mess-backend.onrender.com/subs', { chk: false }, { withCredentials: true })
               .then(res => {
                 window.location.reload();
               }

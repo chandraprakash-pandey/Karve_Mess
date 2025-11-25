@@ -9,7 +9,7 @@ function Menu() {
     useEffect(() => {
         const fetchMenuItems = async () => {
             try {
-                const response = await fetch("http://localhost:8000/menu");
+                const response = await fetch("https://karve-mess-backend.onrender.com/menu");
                 const data = await response.json();
                 setMenuItems(data);
             } catch (error) {

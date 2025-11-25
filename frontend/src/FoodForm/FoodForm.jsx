@@ -55,7 +55,7 @@ function FoodForm() {
 
   // --- Effects ---
   useEffect(() => {
-    axios.get("http://localhost:8000/user", { withCredentials: true })
+    axios.get("https://karve-mess-backend.onrender.com/user", { withCredentials: true })
       .then(res => {
         setUser(res.data);
         if (res.data.subscribed) setSubs(true);
@@ -74,7 +74,7 @@ function FoodForm() {
   }, [subs, loading]);
 
   useEffect(() => {
-    axios.get("http://localhost:8000/myItems", { withCredentials: true })
+    axios.get("https://karve-mess-backend.onrender.com/myItems", { withCredentials: true })
       .then(res => {
         const cnt = res.data.filter(obj => obj.day === day).length;
         setIsAllowed(cnt > 0);
@@ -105,7 +105,7 @@ function FoodForm() {
       if (food.name.trim() !== "") itemsMap[food.name] = Number(food.price);
     });
 
-    axios.post("http://localhost:8000/fooditems", { chefId: user._id, item: itemsMap, day }, { withCredentials: true })
+    axios.post("https://karve-mess-backend.onrender.com/fooditems", { chefId: user._id, item: itemsMap, day }, { withCredentials: true })
       .then(() => {
         setFoods([{ name: "", price: "" }]);
         navigate("/Menu");
