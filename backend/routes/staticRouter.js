@@ -85,12 +85,18 @@ router.post('/login', async (req, res) => {
     try {
         const token = await User.matchPasswordAndGenerateToken(email, password);
 
-        return res.cookie('token', token).json({ message: "Login Successful" });
+        return res.cookie('token', token, {
+            httpOnly: true,
+            secure: true,        // true in production (HTTPS), false on local dev
+            sameSite: 'none',      // required for cross-site cookies
+            maxAge: 1000 * 60 * 60 * 24 * 7,
+            // domain: '.karve-mess.onrender.com' // optional — usually not needed if default works
+        }).json({ message: "Login Successful" });
 
     } catch (err) {
         console.error(err);
         console.log("Error in backend POST LOgin");
-        
+
         return res.status(500).json({ error: "Signup failed" });
     }
 })
