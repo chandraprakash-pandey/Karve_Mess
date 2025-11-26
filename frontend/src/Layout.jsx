@@ -14,17 +14,17 @@ function Layout() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        // console.l9og("aaaaa");
         
         const res = await axios.get(`${apiUrl}/user`, {
           withCredentials: true
         });
-
-        // console.log(res);
-        
+      
         setUser(res.data);
         setSubs(res.data.subscribed);
+        console.log(res.data);
+        console.log(res.data.subscribed);
         
+                
 
       } catch (err) {
         // console.log("eeeee");
@@ -67,7 +67,7 @@ function Layout() {
 
     axios.get(`${apiUrl}/subs`, { withCredentials: true })
       .then(res => {
-        // console.log("Get one");
+        console.log("Subs in frontend get layout");
 
         if (res.data.doe == null) return;
 

@@ -10,7 +10,10 @@ router.get('/subs', async (req, res) => {
         const userId = req.user._id;
         const user = await User.findById(userId);
         const date_of_expire = user.date_of_expire;
-
+        console.log(user);
+        console.log(user.date_of_expire);
+        
+        
         if (date_of_expire == null) {
             return res.status(200).json({ "doe": null, chk: false });
         }
