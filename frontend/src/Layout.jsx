@@ -82,7 +82,6 @@ function Layout() {
             axios.delete(`${apiUrl}/subs`, { withCredentials: true })
               .then(res => {
                 console.log("All items are deleted");
-
               })
               .catch(err => {
                 console.log("error iin delete after subs");

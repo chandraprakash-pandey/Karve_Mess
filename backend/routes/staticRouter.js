@@ -96,7 +96,13 @@ router.post('/login', async (req, res) => {
 })
 
 router.get("/logout", (req, res) => {
-    res.clearCookie("token").json({ message: "Logout Successful" });
+    res.clearCookie("token", {
+            httpOnly: true,
+            secure: true,        // true in production (HTTPS), false on local dev
+            sameSite: 'None',
+            path: "/",      // required for cross-site cookies
+            maxAge: 1000 * 60 * 60 * 24 * 7,
+        }).json({ message: "Logout Successful" });
 })
 
 export default router
