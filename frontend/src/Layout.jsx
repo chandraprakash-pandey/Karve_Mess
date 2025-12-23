@@ -51,9 +51,9 @@ function Layout() {
 
   useEffect(() => {
     if (user != null && !subs) {
-      axios.delete(`${apiUrl}/subs`, { withCredentials: true })
+      axios.patch(`${apiUrl}/user`, { withCredentials: true })
         .then(res => {
-          // console.log("All items are deleted");
+          console.log("Removed from subs");
         })
         .catch(err => {
           console.log("error iin delete after subs");
@@ -65,13 +65,13 @@ function Layout() {
   useEffect(() => {
     let intervalId = null;
 
-    axios.get(`${apiUrl}/subs`, { withCredentials: true })
+    axios.get(`${apiUrl}/user`, { withCredentials: true })
       .then(res => {
         console.log("Subs in frontend get layout");
 
-        if (res.data.doe == null) return;
+        if (res.data.date_of_expire == null) return;
 
-        const target = new Date(res.data.doe);
+        const target = new Date(res.data.date_of_expire);
         // console.log(target);
 
         const updateOnce = () => {
@@ -79,16 +79,19 @@ function Layout() {
           const diffMs = target - now;
           if (diffMs <= 0) {
 
-            axios.delete(`${apiUrl}/subs`, { withCredentials: true })
+            const payload = {chefid: res.data._id, subscribed: res.data.subscribed, date_of_purchase: res.data.date_of_purchase, date_of_expire: res.data.date_of_expire};
+            console.log("layout after done", payload);
+            
+            axios.delete(`${apiUrl}/user`, { withCredentials: true })
               .then(res => {
                 console.log("All items are deleted");
               })
               .catch(err => {
-                console.log("error iin delete after subs");
+                console.log("error in dlt item");
                 console.log(err);
               })
 
-            axios.post(`${apiUrl}/subs`, { chk: false }, { withCredentials: true })
+            axios.patch(`${apiUrl}/user`, payload, { withCredentials: true })
               .then(res => {
                 window.location.reload();
               }
@@ -97,7 +100,7 @@ function Layout() {
                 console.log(err);
               })
 
-            // console.log("done in Layout");
+            console.log("done in Layout");
 
             clearInterval(intervalId);
             // window.location.reload();

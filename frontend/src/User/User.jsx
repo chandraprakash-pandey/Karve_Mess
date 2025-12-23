@@ -50,11 +50,12 @@ function UserDashboard() {
     useEffect(() => {
         let intervalId = null;
 
-        axios.get(`${apiUrl}/subs`, { withCredentials: true })
+        axios.get(`${apiUrl}/user`, { withCredentials: true })
             .then(res => {
-                if (res.data.doe == null) return;
+                if (res.data.date_of_expire == null) return;
+                console.log("hi");
 
-                const target = new Date(res.data.doe);
+                const target = new Date(res.data.date_of_expire);
                 // console.log(target);
 
                 const updateOnce = () => {
@@ -86,6 +87,7 @@ function UserDashboard() {
                     setHours(h);
                     setMinutes(m);
                     setSeconds(s);
+                    // console.log(`${d} Days ${h} Hours ${m} Minutes ${s} Seconds`);
                 };
 
                 updateOnce(); // set initial values right away
@@ -225,8 +227,7 @@ function UserDashboard() {
                                                     <ChefHat className="w-5 h-5 text-white" />
                                                 </div>
                                                 <div className="ml-3">
-                                                    <p className="text-xs text-purple-200 font-medium">Chef ID</p>
-                                                    <p className="text-sm text-white font-semibold">{foodItem.chefId}</p>
+                                                    <p className="text-sm text-white font-semibold">{foodItem.day.toUpperCase()} MENU</p>
                                                 </div>
                                             </div>
                                             <NavLink
@@ -339,7 +340,7 @@ function UserDashboard() {
                                             </div>
                                             <div className="ml-3">
                                                 <p className="text-xs text-gray-500 font-medium">Chef ID</p>
-                                                <p className="text-sm text-gray-700 font-semibold">{foodItem.chefId}</p>
+                                                <p className="text-sm text-gray-700 font-semibold">{foodItem.day.toUpperCase()} MENU</p>
                                             </div>
                                         </div>
                                         <NavLink

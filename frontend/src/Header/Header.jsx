@@ -69,12 +69,15 @@ function Header() {
 
     // Timer Logic
     useEffect(() => {
+        // console.log("hiii");
+        
         let intervalId = null;
-        axios.get(`${apiUrl}/subs`, { withCredentials: true })
+        axios.get(`${apiUrl}/user`, { withCredentials: true })
             .then(res => {
-                if (res.data.doe == null) return;
-                const target = new Date(res.data.doe);
-
+                if (res.data.date_of_expire == null) return;
+                const target = new Date(res.data.date_of_expire);
+                // console.log(target);
+                
                 const updateOnce = () => {
                     const now = new Date();
                     const diffMs = target - now;
@@ -90,6 +93,7 @@ function Header() {
                     setHours(Math.floor((totalSec % (60 * 60 * 24)) / (60 * 60)));
                     setMinutes(Math.floor((totalSec % (60 * 60)) / 60));
                     setSeconds(totalSec % 60);
+                    
                 };
 
                 updateOnce();

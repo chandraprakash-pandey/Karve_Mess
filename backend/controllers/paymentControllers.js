@@ -59,7 +59,7 @@ export const paymentVerification = async (req, res) => {
 
     const date_of_purchase = new Date();
     const date_of_expire = new Date();
-    date_of_expire.setMinutes(date_of_expire.getMinutes() + 5);
+    date_of_expire.setMinutes(date_of_expire.getMinutes() + 2);
 
     await User.findByIdAndUpdate(userId, {
       subscribed: true,

@@ -22,7 +22,8 @@ function Login() {
         axios.get(`${apiUrl}/user`, { withCredentials: true })
             .then(res => {
               window.location.href = "/User";
-            })
+            }).catch(err=> console.log(err)
+            )
     }, [])
 
     const validateForm = () => {
@@ -57,6 +58,10 @@ function Login() {
         setIsLoading(true);
 
         try {
+            console.log(formData.email);
+            console.log(formData.password);
+            
+            
             const res = await axios.post(`${apiUrl}/login`, {
                 email: formData.email,
                 password: formData.password,
