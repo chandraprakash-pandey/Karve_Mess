@@ -82,14 +82,14 @@ router.post('/login', async (req, res) => {
         const token = await User.matchPasswordAndGenerateToken(email, password);
 
         return res.cookie('token', token
-        //     ,{
-        //     httpOnly: true,
-        //     secure: true,        // true in production (HTTPS), false on local dev
-        //     sameSite: 'None',
-        //     path: "/",      // required for cross-site cookies
-        //     domain: '.karve-mess.onrender.com', // optional — usually not needed if default works
-        //     maxAge: 1000 * 60 * 60 * 24 * 7,
-        // }
+            ,{
+            httpOnly: true,
+            secure: true,        // true in production (HTTPS), false on local dev
+            sameSite: 'None',
+            path: "/",      // required for cross-site cookies
+            domain: '.karve-mess.onrender.com', // optional — usually not needed if default works
+            maxAge: 1000 * 60 * 60 * 24 * 7,
+        }
     ).json({ message: "Login Successful" });
 
     } catch (err) {
@@ -102,14 +102,14 @@ router.post('/login', async (req, res) => {
 
 router.get("/logout", (req, res) => {
     res.clearCookie("token"
-        // , {
-        //     httpOnly: true,
-        //     secure: true,        // true in production (HTTPS), false on local dev
-        //     sameSite: 'None',
-        //     path: "/",      // required for cross-site cookies
-        //     domain: '.karve-mess.onrender.com',
-        //     maxAge: 0,
-        // }
+        , {
+            httpOnly: true,
+            secure: true,        // true in production (HTTPS), false on local dev
+            sameSite: 'None',
+            path: "/",      // required for cross-site cookies
+            domain: '.karve-mess.onrender.com',
+            maxAge: 0,
+        }
     ).json({ message: "Logout Successful" });
 })
 
