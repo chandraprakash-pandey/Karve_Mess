@@ -87,7 +87,7 @@ router.post('/login', async (req, res) => {
             secure: true,        // true in production (HTTPS), false on local dev
             sameSite: 'None',
             path: "/",      // required for cross-site cookies
-            domain: '.karve-mess.onrender.com', // optional — usually not needed if default works
+            domain: '.karve-mess.vercel.app', // optional — usually not needed if default works
             maxAge: 1000 * 60 * 60 * 24 * 7,
         }
     ).json({ message: "Login Successful" });
@@ -107,7 +107,7 @@ router.get("/logout", (req, res) => {
             secure: true,        // true in production (HTTPS), false on local dev
             sameSite: 'None',
             path: "/",      // required for cross-site cookies
-            domain: '.karve-mess.onrender.com',
+            domain: '.karve-mess.vercel.app',
             maxAge: 0,
         }
     ).json({ message: "Logout Successful" });
