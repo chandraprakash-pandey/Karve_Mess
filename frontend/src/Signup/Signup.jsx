@@ -62,7 +62,7 @@ function Signup() {
     setIsLoading(true);
     
     try {
-      const res = await axios.post(`${apiUrl}/signup`, formData);
+      const res = await axios.post(`${apiUrl}/signup`, formData, { withCredentials: true });
       // console.log("Signup successful:", res.data);
       navigate("/Login");
     } catch (error) {
