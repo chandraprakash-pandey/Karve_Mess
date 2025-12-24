@@ -2,23 +2,31 @@ import express from "express"
 import dotenv from "dotenv"
 import mongoose from "mongoose";
 import cors from "cors"
-import statcRouter from "./routes/staticRouter.js"; 
-import userRouter from "./routes/userRouter.js";
-import fooditemsRouter from "./routes/fooditemsRouter.js";
+import statcRouter from "../routes/staticRouter.js"; 
+import userRouter from "../routes/userRouter.js";
+import fooditemsRouter from "../routes/fooditemsRouter.js";
 import cookieParser from "cookie-parser";
-import {checkForAuthentication, restrictTo} from "./middleware/auth.js"
-import menuRouter from "./routes/menuRouter.js";
-import myItemsRouter from "./routes/myItemsRouter.js";
-import editItemRouter from "./routes/editItemRouter.js";
-import paymentRoutes from "./routes/paymentRoutes.js"
+import {checkForAuthentication, restrictTo} from "../middleware/auth.js"
+import menuRouter from "../routes/menuRouter.js";
+import myItemsRouter from "../routes/myItemsRouter.js";
+import editItemRouter from "../routes/editItemRouter.js";
+import paymentRoutes from "../routes/paymentRoutes.js"
 import Razorpay from "razorpay"
 
 dotenv.config();
 
-mongoose.connect(process.env.MONGO_URL).then(e=> console.log("MongoDB Connected")).catch(err => console.error(err))
+// mongoose.connect(process.env.MONGO_URL).then(e=> console.log("MongoDB Connected")).catch(err => console.error(err))
+
+const connectDB = async () => {
+  if (mongoose.connection.readyState >= 1) return;
+
+  await mongoose.connect(process.env.MONGO_URL);
+  console.log("MongoDB Connected");
+};
+
+connectDB();
 
 const app = express()
-const PORT = process.env.PORT || 8000;
 
 app.set('trust proxy', 1);
 app.use(express.urlencoded({extended:true}));
@@ -45,4 +53,6 @@ export const instance = new Razorpay({
 })
 
 
-app.listen(PORT, () => console.log(`Server Running at http://localhost:${PORT}`));
+// app.listen(PORT, () => console.log(`Server Running at http://localhost:${PORT}`));
+
+export default app;
