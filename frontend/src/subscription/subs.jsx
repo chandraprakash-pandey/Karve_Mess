@@ -79,7 +79,7 @@ function Subs() {
             key,
             amount,
             currency: 'INR',
-            name: 'Chandraprakash Pandey',
+            name: 'Karve Mess',
             description: 'Razorpay Integration Tutorial',
             order_id: order.id,
             callback_url: `${apiUrl}/api/paymentVerification`,
@@ -89,7 +89,7 @@ function Subs() {
                 // contact: '9999999999'
             },
             theme: {
-                color: '#F37254'
+                color: '#060301ff'
             },
         };
 
