@@ -85,7 +85,7 @@ function Subs() {
             callback_url: `${apiUrl}/api/paymentVerification`,
             prefill: {
                 name: 'Chandraprakash Pandey',
-                // email: 'pandey.kumar@example.com',
+                email: user.email,
                 // contact: '9999999999'
             },
             theme: {
