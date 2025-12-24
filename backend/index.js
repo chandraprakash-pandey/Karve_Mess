@@ -2,15 +2,15 @@ import express from "express"
 import dotenv from "dotenv"
 import mongoose from "mongoose";
 import cors from "cors"
-import statcRouter from "../routes/staticRouter.js"; 
-import userRouter from "../routes/userRouter.js";
-import fooditemsRouter from "../routes/fooditemsRouter.js";
+import statcRouter from "./routes/staticRouter.js"; 
+import userRouter from "./routes/userRouter.js";
+import fooditemsRouter from "./routes/fooditemsRouter.js";
 import cookieParser from "cookie-parser";
-import {checkForAuthentication, restrictTo} from "../middleware/auth.js"
-import menuRouter from "../routes/menuRouter.js";
-import myItemsRouter from "../routes/myItemsRouter.js";
-import editItemRouter from "../routes/editItemRouter.js";
-import paymentRoutes from "../routes/paymentRoutes.js"
+import {checkForAuthentication, restrictTo} from "./middleware/auth.js"
+import menuRouter from "./routes/menuRouter.js";
+import myItemsRouter from "./routes/myItemsRouter.js";
+import editItemRouter from "./routes/editItemRouter.js";
+import paymentRoutes from "./routes/paymentRoutes.js"
 import Razorpay from "razorpay"
 
 dotenv.config();
