@@ -1,3 +1,4 @@
+import client from "../client.js";
 import FoodItem from "../models/foodItems.js";
 import { Router } from "express"
 
@@ -12,6 +13,7 @@ router.post('/', async (req, res) => {
         const { chefId, item, day } = req.body;
 
         await FoodItem.create({ chefId, item, day });
+        // await client.set('fooditems', )
 
         res.status(201).json({ message: "Food item created successfully" });
     } catch (error) {

@@ -10,6 +10,7 @@ router.get("/", (req,res) => {
     if (!user) {
         return res.status(401).json({ message: "Unauthorized" });
     }
+    
     return res.json(user);
 })
 

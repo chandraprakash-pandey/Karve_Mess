@@ -4,7 +4,7 @@ import User from "../models/user.js"
 
 export const processPayment = async(req,res) => {
     const option ={
-        amount:Number(req.body.amount*100),
+        amount:Number(req.body.amount*10),
         currency: "INR",
     }
 

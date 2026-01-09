@@ -1,5 +1,6 @@
 import { Router } from "express"
 import FoodItem from "../models/foodItems.js"
+import client from "../client.js";
 
 
 const router = Router();
@@ -18,6 +19,9 @@ router.patch("/:itemId", async (req, res) => {
         const { item } = req.body;
 
         const updatedItem = await FoodItem.findOneAndUpdate({ _id: itemId }, { item }, { new: true });
+        // await client.del("fooditems");
+        // await client.del(`myitems:${req.user._id}`);
+
         return res.status(200).json(updatedItem);
     } catch (error) {
         console.error(error);
@@ -30,6 +34,8 @@ router.delete("/:itemId", async (req, res) => {
     try {
         const { itemId } = req.params;
         await FoodItem.findOneAndDelete({ _id: itemId });
+        // await client.del("fooditems");
+        // await client.del(`myitems:${req.user._id}`);
         return res.status(204).send();
     } catch (error) {
         console.error(error);
