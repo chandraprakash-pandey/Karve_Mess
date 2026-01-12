@@ -1,12 +1,7 @@
 {
+  "version": 2,
   "rewrites": [
-    {
-      "source": "/api/:path*",
-      "destination": "https://karve-mess-backend.vercel.app/:path*"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
-    }
+    { "source": "/api/(.*)", "destination": "/index.js" },
+    { "source": "/(.*)", "destination": "/index.js" }
   ]
-}   
+}
