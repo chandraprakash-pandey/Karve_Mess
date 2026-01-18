@@ -21,21 +21,22 @@ router.post('/signup', async (req, res) => {
 router.post('/login', async (req, res) => {
 
     const { email, password } = req.body;
-    console.log(email,password);
+    console.log(email, password);
 
     try {
         const token = await User.matchPasswordAndGenerateToken(email, password);
 
-        return res.cookie('token', token
-            ,{
+        return res.cookie("token", token, {
             httpOnly: true,
-            secure: true,        // true in production (HTTPS), false on local dev
-            sameSite: 'None',
-            path: "/",      // required for cross-site cookies
-            // domain: '.karve-mess.vercel.app', // optional — usually not needed if default works
-            maxAge: 1000 * 60 * 60 * 24 * 7,
+            secure: true,
+            sameSite: "None",
+            partitioned: true,
+            expires: new Date(0),
+            path: "/",
         }
-    ).json({ message: "Login Successful" });
+
+
+        ).json({ message: "Login Successful" });
 
     } catch (err) {
         console.error(err);
