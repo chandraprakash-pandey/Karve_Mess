@@ -25,17 +25,25 @@ router.post('/login', async (req, res) => {
 
     try {
         const token = await User.matchPasswordAndGenerateToken(email, password);
+        console.log("Token generated:", token ? "Yes" : "No");
 
-        return res.cookie("token", token, {
+        const cookieOptions = {
             httpOnly: true,
             secure: true,
             sameSite: "None",
             maxAge: 7 * 24 * 60 * 60 * 1000,
-            path: "/",
-        }
+            // path: "/",
+        };
 
-
-        ).json({ message: "Login Successful" });
+        res.cookie("token", token, cookieOptions);
+        
+        // Log the Set-Cookie header to verify
+        console.log("Setting cookie with options:", cookieOptions);
+        
+        return res.json({ 
+            message: "Login Successful",
+            success: true 
+        });
 
     } catch (err) {
         console.error(err);
