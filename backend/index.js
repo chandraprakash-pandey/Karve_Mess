@@ -33,16 +33,16 @@ app.use(express.urlencoded({extended:true}));
 app.use(cors({ origin: `${process.env.FRONTEND_URL}`, credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
-app.use("/", statcRouter);
+app.use("/api", statcRouter);
 app.use(checkForAuthentication)
-app.use("/user", restrictTo(), userRouter);
-app.use("/fooditems",restrictTo(), fooditemsRouter);
-app.use("/menu", menuRouter);
-app.use("/myItems", myItemsRouter);
-app.use("/editItem", editItemRouter);
+app.use("/api/user", restrictTo(), userRouter);
+app.use("/api/fooditems",restrictTo(), fooditemsRouter);
+app.use("/api/menu", menuRouter);
+app.use("/api/myItems", myItemsRouter);
+app.use("/api/editItem", editItemRouter);
 app.use("/api",paymentRoutes);
 
-app.get("/", (req,res) => {
+app.get("/api", (req,res) => {
     // console.log(req.user._id);
     return res.json({mssg: "Hello World"});
 })
@@ -51,6 +51,7 @@ export const instance = new Razorpay({
     key_id: process.env.RAZORPAY_API_KEY,
     key_secret: process.env.RAZORPAY_API_SECRET
 })
+
 const PORT = process.env.PORT || 9000
 
 // app.listen(PORT, () => console.log(`Server Running at http://localhost:${PORT}`));

@@ -1,6 +1,6 @@
 import { Router } from "express"
 import FoodItem from "../models/foodItems.js"
-import client from "../client.js";
+// import client from "../client.js";
 
 
 const router = Router();
