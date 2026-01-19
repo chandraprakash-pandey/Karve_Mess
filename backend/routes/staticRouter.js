@@ -33,7 +33,7 @@ router.post('/login', async (req, res) => {
             sameSite: "None",
             maxAge: 7 * 24 * 60 * 60 * 1000,
             path: "/",
-            domain: '.karve-mess.vercel.app',
+            // domain: '.karve-mess.vercel.app',
         };
 
         res.cookie("token", token, cookieOptions);
@@ -61,7 +61,7 @@ router.get("/logout", (req, res) => {
             secure: true,        // true in production (HTTPS), false on local dev
             sameSite: 'None',
             path: "/",      // required for cross-site cookies
-            domain: '.karve-mess.vercel.app',
+            // domain: '.karve-mess.vercel.app',
             // maxAge: 0,
         }
     ).json({ message: "Logout Successful" });
