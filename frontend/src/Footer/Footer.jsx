@@ -113,23 +113,7 @@ function Footer() {
                 {/* Divider */}
                 <div className='border-t border-gray-700 my-8'></div>
 
-                {/* Bottom Footer */}
-                <div className='flex flex-col md:flex-row justify-between items-center gap-4'>
-                    <p className='text-gray-400 text-sm text-center md:text-left'>
-                        © {currentYear} KarveMess. All rights reserved.
-                    </p>
-                    <p className='text-gray-400 text-sm flex items-center gap-2'>
-                        Made with <Heart className='w-4 h-4 text-red-500 fill-red-500' /> by 
-                        <a 
-                            href='https://www.linkedin.com/in/chandraprakash-pandey/'
-                            target='_blank'
-                            rel='noopener noreferrer'
-                            className='text-orange-500 hover:text-orange-400 font-semibold transition-colors'
-                        >
-                            Chandraprakash Pandey
-                        </a>
-                    </p>
-                </div>
+                
             </div>
         </footer>
     );
