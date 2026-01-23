@@ -15,16 +15,16 @@ import Razorpay from "razorpay"
 
 dotenv.config();
 
-// mongoose.connect(process.env.MONGO_URL).then(e=> console.log("MongoDB Connected")).catch(err => console.error(err))
+mongoose.connect(process.env.MONGO_URL).then(e=> console.log("MongoDB Connected")).catch(err => console.error(err))
 
-const connectDB = async () => {
-  if (mongoose.connection.readyState >= 1) return;
+// const connectDB = async () => {
+//   if (mongoose.connection.readyState >= 1) return;
 
-  await mongoose.connect(process.env.MONGO_URL);
-  console.log("MongoDB Connected");
-};
+//   await mongoose.connect(process.env.MONGO_URL);
+//   console.log("MongoDB Connected");
+// };
 
-connectDB();
+// connectDB();
 
 const app = express()
 
@@ -33,13 +33,13 @@ app.use(express.urlencoded({extended:true}));
 app.use(cors({ origin: `${process.env.FRONTEND_URL}`, credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
-app.use("/api", statcRouter);
+app.use("/", statcRouter);
 app.use(checkForAuthentication)
-app.use("/api/user", restrictTo(), userRouter);
-app.use("/api/fooditems",restrictTo(), fooditemsRouter);
-app.use("/api/menu", menuRouter);
-app.use("/api/myItems", myItemsRouter);
-app.use("/api/editItem", editItemRouter);
+app.use("/user", restrictTo(), userRouter);
+app.use("/fooditems",restrictTo(), fooditemsRouter);
+app.use("/menu", menuRouter);
+app.use("/myItems", myItemsRouter);
+app.use("/editItem", editItemRouter);
 app.use("/api",paymentRoutes);
 
 app.get("/api", (req,res) => {
@@ -54,6 +54,6 @@ export const instance = new Razorpay({
 
 const PORT = process.env.PORT || 9000
 
-// app.listen(PORT, () => console.log(`Server Running at http://localhost:${PORT}`));
+app.listen(PORT, () => console.log(`Server Running at http://localhost:${PORT}`));
 
-export default app;
+// export default app;
