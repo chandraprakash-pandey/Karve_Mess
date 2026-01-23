@@ -145,7 +145,7 @@ function Subs() {
                             {/* Pricing */}
                             <div className='mb-8 bg-linear-to-br from-orange-50 to-red-50 p-6 rounded-2xl'>
                                 <div className='flex items-baseline gap-2'>
-                                    <span className='text-5xl font-bold text-gray-900'>₹10</span>
+                                    <span className='text-5xl font-bold text-gray-900'>₹1</span>
                                     <span className='text-gray-600'>/week</span>
                                 </div>
                                 <p className='text-sm text-gray-600 mt-2'>Billed weekly • Cancel anytime</p>
