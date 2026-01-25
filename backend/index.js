@@ -15,16 +15,16 @@ import Razorpay from "razorpay"
 
 dotenv.config();
 
-mongoose.connect(process.env.MONGO_URL).then(e=> console.log("MongoDB Connected")).catch(err => console.error(err))
+// mongoose.connect(process.env.MONGO_URL).then(e=> console.log("MongoDB Connected")).catch(err => console.error(err))
 
-// const connectDB = async () => {
-//   if (mongoose.connection.readyState >= 1) return;
+const connectDB = async () => {
+  if (mongoose.connection.readyState >= 1) return;
 
-//   await mongoose.connect(process.env.MONGO_URL);
-//   console.log("MongoDB Connected");
-// };
+  await mongoose.connect(process.env.MONGO_URL);
+  console.log("MongoDB Connected");
+};
 
-// connectDB();
+connectDB();
 
 const app = express()
 
@@ -54,6 +54,6 @@ export const instance = new Razorpay({
 
 const PORT = process.env.PORT || 9000
 
-app.listen(PORT, () => console.log(`Server Running at http://localhost:${PORT}`));
+// app.listen(PORT, () => console.log(`Server Running at http://localhost:${PORT}`));
 
-// export default app;
+export default app;
