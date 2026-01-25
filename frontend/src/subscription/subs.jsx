@@ -80,9 +80,28 @@ function Subs() {
             amount,
             currency: 'INR',
             name: 'Karve Mess',
-            description: 'Razorpay Integration Tutorial',
+            description: 'Weekly Pro Plan',
             order_id: order.id,
-            callback_url: `${apiUrl}/api/paymentVerification`,
+            handler: async function (response) {
+                const verifyRes = await axios.post(
+                    `${apiUrl}/api/paymentVerification`,
+                    {
+                        razorpay_payment_id: response.razorpay_payment_id,
+                        razorpay_order_id: response.razorpay_order_id,
+                        razorpay_signature: response.razorpay_signature,
+                        userId: user._id
+                    },
+                    { withCredentials: true }
+                );
+
+                if (verifyRes.data.success) {
+                    window.location.replace(verifyRes.data.redirectUrl);
+                    // OR
+                    // window.location.href = verifyRes.data.redirectUrl;
+                    // OR
+                    // window.location.reload();
+                }
+            },
             prefill: {
                 name: 'Chandraprakash Pandey',
                 email: user.email,

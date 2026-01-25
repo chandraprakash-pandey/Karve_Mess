@@ -68,17 +68,11 @@ export const paymentVerification = async (req, res) => {
     }, { new: true });
 
     // If frontend initiated request (AJAX), respond JSON. If you expect browser redirect, redirect.
-    const front = process.env.FRONTEND_URL;
-    if (front) {
-      return res.status(200).json({
-        success: true,
-        redirectUrl: `${front}/user`,
-        reload: true
-      });
-
-    } else {
-      return res.status(200).json({ success: true, message: 'Payment verified' });
-    }
+    return res.status(200).json({
+      success: true,
+      redirectUrl: `${process.env.FRONTEND_URL}/user`,
+      reload: true
+    });
   } catch (err) {
     console.error('paymentVerification error:', err);
     return res.status(500).json({ success: false, message: 'Internal server error' });
