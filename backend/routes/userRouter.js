@@ -16,7 +16,7 @@ router.get("/", (req,res) => {
 
 router.patch("/", async(req,res) => {
     try {
-        console.log("patch was called");
+        // console.log("patch was called");
         
         const {chefid, subscribed, date_of_purchase, date_of_expire} = req.body;
         const updateUser = await User.findByIdAndUpdate(chefid, {$set: {subscribed: false, date_of_purchase: null, date_of_expire: null}});
@@ -32,7 +32,7 @@ router.delete("/", async (req, res) => {
         const today = new Date();
         const day = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
         const today_Day = day[today.getDay()];
-        console.log("deleted item");
+        // console.log("deleted item");
         
         await FoodItem.deleteMany({
             chefId: req.user._id,
