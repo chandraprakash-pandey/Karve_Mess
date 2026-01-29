@@ -82,7 +82,28 @@ function Subs() {
             name: 'Karve Mess',
             description: 'Weekly Pro Plan',
             order_id: order.id,
-            callback_url: `${apiUrl}/api/paymentVerification`,
+            chandler: async function (response) {
+                try {
+                    const verifyRes = await axios.post(
+                        `${apiUrl}/api/paymentVerification`,
+                        {
+                            razorpay_payment_id: response.razorpay_payment_id,
+                            razorpay_order_id: response.razorpay_order_id,
+                            razorpay_signature: response.razorpay_signature,
+                        },
+                        { withCredentials: true }
+                    );
+
+                    if (verifyRes.data.success) {
+                        window.location.href = "/user";   // ✅ REAL redirect
+                    } else {
+                        alert("Payment verification failed");
+                    }
+                } catch (err) {
+                    console.error("Verification error:", err);
+                    alert("Payment verification error");
+                }
+            },
             prefill: {
                 name: 'Chandraprakash Pandey',
                 email: user.email,

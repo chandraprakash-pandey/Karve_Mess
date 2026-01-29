@@ -2,24 +2,24 @@ import { instance } from "../index.js"
 import crypto from "crypto"
 import User from "../models/user.js"
 
-export const processPayment = async(req,res) => {
-    const option ={
-        amount:Number(req.body.amount*10),
-        currency: "INR",
-    }
+export const processPayment = async (req, res) => {
+  const option = {
+    amount: Number(req.body.amount * 10),
+    currency: "INR",
+  }
 
-    const order = await instance.orders.create(option);
+  const order = await instance.orders.create(option);
 
-    res.status(200).json({
-        success: true,
-        order
-    })
+  res.status(200).json({
+    success: true,
+    order
+  })
 }
 
-export const getKey = (req,res) => {
-    res.status(200).json({
-        key:process.env.RAZORPAY_API_KEY
-    })
+export const getKey = (req, res) => {
+  res.status(200).json({
+    key: process.env.RAZORPAY_API_KEY
+  })
 }
 
 
@@ -47,7 +47,7 @@ export const paymentVerification = async (req, res) => {
 
     // Determine userId safely:
     // Option A (preferred if request has auth): req.user set by auth middleware
-    let userId = req.user?. _id;
+    let userId = req.user?._id;
     // Option B (if this endpoint is called by Razorpay/webhook): expect userId in body or find via order metadata
     if (!userId) userId = req.body.userId || null;
 
@@ -67,13 +67,12 @@ export const paymentVerification = async (req, res) => {
       date_of_expire
     }, { new: true });
 
-    // If frontend initiated request (AJAX), respond JSON. If you expect browser redirect, redirect.
-    const front = process.env.FRONTEND_URL;
-    if (front) {
-      return res.redirect(`${front}/user`);
-    } else {
-      return res.status(200).json({ success: true, message: 'Payment verified' });
-    }
+    return res.status(200).json({
+      success: true,
+      message: "Payment verified"
+    });
+
+
   } catch (err) {
     console.error('paymentVerification error:', err);
     return res.status(500).json({ success: false, message: 'Internal server error' });
