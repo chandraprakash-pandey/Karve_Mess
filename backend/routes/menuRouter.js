@@ -9,6 +9,9 @@ const days = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", 
 
 const dayName = days[today.getDay()];
 
+console.log(dayName);
+
+
 router.get("/", async (req,res) => {
     //  const CacheFoodItems = await client.get("fooditems")
     //  if(CacheFoodItems) return res.status(200).json(JSON.parse(CacheFoodItems));
