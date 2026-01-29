@@ -1,32 +1,32 @@
 import { Router } from "express"
 import FoodItem from "../models/foodItems.js"
-// import client from "../client.js";
 
 const router = Router();
 
 const days = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
 
-// const dayName = days[today.getDay()];
+function getISTDate() {
+  return new Date(
+    new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" })
+  );
+}
 
+router.get("/", async (req, res) => {
+  try {
+    const istNow = getISTDate();
+    const dayName = days[istNow.getDay()];
 
+    const foodItems = await FoodItem
+      .find({ day: dayName })
+      .populate("chefId");
 
-router.get("/", async (req,res) => {
-  const today = new Date();
-  const dayName = days[today.getDay()];
-  console.log("dayname", dayName);
-    //  const CacheFoodItems = await client.get("fooditems")
-    //  if(CacheFoodItems) return res.status(200).json(JSON.parse(CacheFoodItems));
+    foodItems.sort((a, b) => b.chefId.subscribed - a.chefId.subscribed);
 
-    const foodItems = await FoodItem.find({day: dayName}).populate("chefId");
-    foodItems.sort(
-  (a, b) => b.chefId.subscribed - a.chefId.subscribed
-);
-    // console.log(foodItems);
-    // await client.set("hello", 1);
-    // await client.set('fooditems', JSON.stringify(foodItems));
-    // await client.expire('fooditems', 50);
-    
     res.status(200).json(foodItems);
+  } catch (err) {
+    console.error("Menu fetch error:", err);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
 export default router;
