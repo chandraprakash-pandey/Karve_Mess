@@ -82,7 +82,7 @@ function Subs() {
             name: 'Karve Mess',
             description: 'Weekly Pro Plan',
             order_id: order.id,
-            chandler: async function (response) {
+            handler: async function (response) {
                 try {
                     const verifyRes = await axios.post(
                         `${apiUrl}/api/paymentVerification`,
