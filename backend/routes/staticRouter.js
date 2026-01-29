@@ -37,13 +37,13 @@ router.post('/login', async (req, res) => {
         };
 
         res.cookie("token", token, cookieOptions);
-        
+
         // Log the Set-Cookie header to verify
         console.log("Setting cookie with options:", cookieOptions);
-        
-        return res.json({ 
+
+        return res.json({
             message: "Login Successful",
-            success: true 
+            success: true
         });
 
     } catch (err) {
@@ -54,17 +54,19 @@ router.post('/login', async (req, res) => {
     }
 })
 
-router.get("/logout", (req, res) => {
-    res.clearCookie("token"
-        , {
-            httpOnly: true,
-            secure: true,        // true in production (HTTPS), false on local dev
-            sameSite: 'None',
-            path: "/",      // required for cross-site cookies
-            // domain: '.karve-mess.vercel.app',
-            // maxAge: 0,
-        }
-    ).json({ message: "Logout Successful" });
-})
+router.post("/logout", (req, res) => {
+    res.clearCookie("token", {
+        httpOnly: true,
+        secure: true,
+        sameSite: "None",
+        path: "/",
+    });
+
+    return res.status(200).json({
+        success: true,
+        message: "Logout successful"
+    });
+});
+
 
 export default router

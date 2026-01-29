@@ -1,31 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import axios from "axios";
-import { 
-  Home, LogIn, UserPlus, LogOut, User, Menu, X, 
-  Utensils, Crown, Sparkles, Star, AlertCircle 
+import {
+    Home, LogIn, UserPlus, LogOut, User, Menu, X,
+    Utensils, Crown, Sparkles, Star, AlertCircle
 } from 'lucide-react';
 
 // --- Reusable Nav Item Component for consistency ---
 const NavItem = ({ to, icon: Icon, label, onClick, isPremium, className }) => (
-  <NavLink
-    to={to}
-    onClick={onClick}
-    className={({ isActive }) =>
-      `relative flex items-center gap-2 px-4 py-2 rounded-xl font-medium transition-all duration-300 overflow-hidden group
+    <NavLink
+        to={to}
+        onClick={onClick}
+        className={({ isActive }) =>
+            `relative flex items-center gap-2 px-4 py-2 rounded-xl font-medium transition-all duration-300 overflow-hidden group
        ${className || ''}
        ${isActive
-          ? (isPremium 
-              ? 'bg-linear-to-r from-yellow-400 to-amber-500 text-white shadow-lg shadow-amber-500/20 scale-[1.02]' 
-              : 'bg-linear-to-r from-blue-600 to-purple-600 text-white shadow-lg shadow-blue-500/20 scale-[1.02]')
-          : 'text-gray-300 hover:text-white hover:bg-white/10'
-       }`
-    }
-    style={{ textDecoration: 'none' }}
-  >
-    <Icon size={18} className="relative z-10" />
-    <span className="relative z-10">{label}</span>
-  </NavLink>
+                ? (isPremium
+                    ? 'bg-linear-to-r from-yellow-400 to-amber-500 text-white shadow-lg shadow-amber-500/20 scale-[1.02]'
+                    : 'bg-linear-to-r from-blue-600 to-purple-600 text-white shadow-lg shadow-blue-500/20 scale-[1.02]')
+                : 'text-gray-300 hover:text-white hover:bg-white/10'
+            }`
+        }
+        style={{ textDecoration: 'none' }}
+    >
+        <Icon size={18} className="relative z-10" />
+        <span className="relative z-10">{label}</span>
+    </NavLink>
 );
 
 function Header() {
@@ -35,7 +35,7 @@ function Header() {
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
     const [subs, setSubs] = useState(false);
-    
+
     // Timer State
     const [days, setDays] = useState(0);
     const [hours, setHours] = useState(0);
@@ -70,14 +70,14 @@ function Header() {
     // Timer Logic
     useEffect(() => {
         // console.log("hiii");
-        
+
         let intervalId = null;
         axios.get(`${apiUrl}/user`, { withCredentials: true })
             .then(res => {
                 if (res.data.date_of_expire == null) return;
                 const target = new Date(res.data.date_of_expire);
                 // console.log(target);
-                
+
                 const updateOnce = () => {
                     const now = new Date();
                     const diffMs = target - now;
@@ -93,7 +93,7 @@ function Header() {
                     setHours(Math.floor((totalSec % (60 * 60 * 24)) / (60 * 60)));
                     setMinutes(Math.floor((totalSec % (60 * 60)) / 60));
                     setSeconds(totalSec % 60);
-                    
+
                 };
 
                 updateOnce();
@@ -106,22 +106,19 @@ function Header() {
 
     const handleLogout = async () => {
         try {
-            await axios.get(`${apiUrl}/logout`, { withCredentials: true });
+            await axios.post(`${apiUrl}/logout`, {}, { withCredentials: true });
+
             setUser(null);
             navigate("/login");
             setIsOpen(false);
-            
-            // Handle reload logic if needed
-            const hasReloaded = sessionStorage.getItem("hasReloaded");
-            if (hasReloaded) {
-                sessionStorage.setItem("hasReloaded", "false");
-                window.location.reload();
-            }
+
             sessionStorage.removeItem("hasReloaded");
+
         } catch (err) {
-            console.error(`Error: ${err}`);
+            console.error("Logout error:", err);
         }
     };
+
 
     const handleSubscribe = () => {
         navigate("/subscription");
@@ -132,14 +129,14 @@ function Header() {
         <div className='flex flex-col relative z-50'>
             <nav className={`
                 w-full transition-all duration-300
-                ${subs 
-                    ? 'bg-slate-900/90 border-b border-yellow-500/20' 
+                ${subs
+                    ? 'bg-slate-900/90 border-b border-yellow-500/20'
                     : 'bg-slate-900/90 border-b border-white/10'
                 } backdrop-blur-md sticky top-0
             `}>
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between items-center h-16 sm:h-20">
-                        
+
                         {/* --- Logo --- */}
                         <NavLink to="/" className="flex items-center gap-3 group" style={{ textDecoration: 'none' }}>
                             <div className={`
@@ -174,7 +171,7 @@ function Header() {
                                         <>
                                             <NavItem to="/Menu" icon={Utensils} label="Menu" />
                                             <NavItem to={`/foodform?day=${dayName}`} icon={Utensils} label="Add Menu" />
-                                            
+
                                             {/* Subscription Button (Desktop) */}
                                             {(!subs || minutes <= 0) && (
                                                 <button
@@ -188,8 +185,8 @@ function Header() {
 
                                             {/* User Profile Dropdown/Link (Desktop) */}
                                             <div className="ml-4 pl-4 border-l border-white/10 flex items-center gap-4">
-                                                <NavLink 
-                                                    to='/user' 
+                                                <NavLink
+                                                    to='/user'
                                                     className={`flex items-center gap-3 pl-2 pr-4 py-1.5 rounded-full transition-all duration-300 border hover:bg-white/5
                                                         ${subs ? 'border-yellow-500/30' : 'border-transparent'}
                                                     `}
@@ -210,8 +207,8 @@ function Header() {
                                                         </span>
                                                     </div>
                                                 </NavLink>
-                                                
-                                                <button 
+
+                                                <button
                                                     onClick={handleLogout}
                                                     className="p-2 rounded-xl text-gray-400 hover:text-red-400 hover:bg-red-400/10 transition-colors"
                                                     title="Logout"
@@ -257,7 +254,7 @@ function Header() {
                                 ) : (
                                     <>
                                         {/* Mobile User Profile Summary */}
-                                        <div 
+                                        <div
                                             onClick={() => { navigate('/user'); setIsOpen(false); }}
                                             className="flex items-center gap-3 p-3 mb-4 rounded-xl bg-white/5 border border-white/5 cursor-pointer"
                                         >
@@ -277,7 +274,7 @@ function Header() {
 
                                         <NavItem to="/Menu" icon={Utensils} label="Menu" onClick={() => setIsOpen(false)} isMobile />
                                         <NavItem to={`/foodform?day=${dayName}`} icon={Utensils} label="Add Menu" onClick={() => setIsOpen(false)} isMobile />
-                                        
+
                                         <div className="my-3 border-t border-white/10"></div>
 
                                         {!subs && (
