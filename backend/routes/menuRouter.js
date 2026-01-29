@@ -8,7 +8,6 @@ const days = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", 
 
 // const dayName = days[today.getDay()];
 
-console.log("today", today);
 
 
 router.get("/", async (req,res) => {
