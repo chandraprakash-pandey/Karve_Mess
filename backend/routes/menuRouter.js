@@ -7,14 +7,15 @@ const router = Router();
 const today = new Date();
 const days = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
 
-const dayName = days[today.getDay()];
+// const dayName = days[today.getDay()];
 
-// console.log(dayName);
+console.log("today", today);
 
 
 router.get("/", async (req,res) => {
   const today = new Date();
   const dayName = days[today.getDay()];
+  console.log("dayname", dayName);
     //  const CacheFoodItems = await client.get("fooditems")
     //  if(CacheFoodItems) return res.status(200).json(JSON.parse(CacheFoodItems));
 
