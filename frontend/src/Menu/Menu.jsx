@@ -42,74 +42,76 @@ function Menu() {
     }
 
     return (
-        <div className="min-h-screen bg-background-light dot-pattern font-display text-indigo-custom py-12 px-4 sm:px-6 lg:px-8">
+        <div className="min-h-screen bg-background-light dot-pattern font-display text-indigo-custom py-8 sm:py-12 px-4 sm:px-6 lg:px-8">
             <div className="max-w-7xl mx-auto">
                 {/* Header */}
-                <div className="text-center mb-16">
-                    
-                    <div className="mt-6 inline-block px-6 py-2 bg-yellow-custom neo-border rounded-full shadow-neo">
-                        <span className="font-black text-2xl uppercase tracking-wider">Today's <span className="text-primary italic">Menu</span></span>
+                <div className="text-center mb-10 sm:mb-16">
+                    <div className="mt-6 inline-block px-4 sm:px-6 py-2 bg-yellow-custom neo-border rounded-full shadow-neo">
+                        <span className="font-black text-xl sm:text-2xl uppercase tracking-wider">Today's <span className="text-primary italic">Menu</span></span>
                     </div>
                 </div>
 
                 {/* Menu Grid */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-10">
                     {menuItems.map((f, index) => (
                         <div 
                             key={index}
                             className="bg-white neo-border rounded-3xl shadow-neo-lg overflow-hidden card-lifted group"
                         >
                             {/* Chef Header */}
-                            <div className="bg-primary p-8 text-white relative overflow-hidden">
+                            <div className="bg-primary p-5 sm:p-8 text-white relative overflow-hidden">
                                 {/* Decorative circles */}
                                 <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/10 rounded-full"></div>
                                 <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-white/10 rounded-full"></div>
                                 
-                                <div className="relative flex items-start justify-between gap-4">
-                                    <div className="flex items-start flex-1 gap-5">
-                                        <div className="bg-white/20 neo-border rounded-2xl p-4 shadow-neo">
-                                            <ChefHat className="w-10 h-10" />
+                                <div className="relative space-y-4">
+                                    <div className="flex items-start gap-3 sm:gap-5">
+                                        <div className="bg-white/20 neo-border rounded-2xl p-3 sm:p-4 shadow-neo shrink-0">
+                                            <ChefHat className="w-8 h-8 sm:w-10 sm:h-10" />
                                         </div>
-                                        <div className="flex-1">
-                                            <p className="text-sm font-bold opacity-90 mb-2 uppercase tracking-wide">Prepared by</p>
-                                            <h3 className="text-3xl font-black mb-4">{f.chefId.messName}</h3>
-                                            <div className="flex items-start space-x-2">
-                                                <MapPin className="w-5 h-5 mt-0.5 shrink-0" />
-                                                <p className="text-white/95 font-medium text-sm leading-relaxed flex-1">
-                                                    {f.chefId.messAddress}
-                                                </p>
-                                            </div>
+                                        <div className="flex-1 min-w-0">
+                                            <p className="text-xs sm:text-sm font-bold opacity-90 mb-1 sm:mb-2 uppercase tracking-wide">Prepared by</p>
+                                            <h3 className="text-2xl sm:text-3xl font-black mb-3 sm:mb-4 break-words">{f.chefId.messName}</h3>
                                         </div>
                                     </div>
-                                    <button
-                                        onClick={() => handleMapClick(f.chefId.messAddress)}
-                                        className="shrink-0 btn-lifted bg-yellow-custom neo-border rounded-xl p-3 hover:bg-white transition-all shadow-neo group/btn"
-                                        title="View on Map"
-                                    >
-                                        <MapPin className="w-6 h-6 text-indigo-custom group-hover/btn:scale-110 transition-transform" />
-                                    </button>
+                                    
+                                    <div className="flex items-start justify-between gap-3">
+                                        <div className="flex items-start space-x-2 flex-1 min-w-0">
+                                            <MapPin className="w-4 h-4 sm:w-5 sm:h-5 mt-0.5 shrink-0" />
+                                            <p className="text-white/95 font-medium text-xs sm:text-sm leading-relaxed break-words">
+                                                {f.chefId.messAddress}
+                                            </p>
+                                        </div>
+                                        <button
+                                            onClick={() => handleMapClick(f.chefId.messAddress)}
+                                            className="shrink-0 btn-lifted bg-yellow-custom neo-border rounded-xl p-2.5 sm:p-3 hover:bg-white transition-all shadow-neo group/btn"
+                                            title="View on Map"
+                                        >
+                                            <MapPin className="w-5 h-5 sm:w-6 sm:h-6 text-indigo-custom group-hover/btn:scale-110 transition-transform" />
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
 
                             {/* Menu Items */}
-                            <div className="p-8">
-                                <div className="flex items-center gap-3 mb-6">
+                            <div className="p-5 sm:p-8">
+                                <div className="flex items-center gap-3 mb-5 sm:mb-6">
                                     <div className="size-3 bg-primary rounded-full pulse-scale"></div>
-                                    <h4 className="text-2xl font-black text-indigo-custom uppercase tracking-tight">
+                                    <h4 className="text-xl sm:text-2xl font-black text-indigo-custom uppercase tracking-tight">
                                         Today's Specialties
                                     </h4>
                                 </div>
                                 
-                                <ul className="space-y-3">
+                                <ul className="space-y-3 p-0">
                                     {Object.entries(f.item).map(([name, price], idx) => (
                                         <li 
                                             key={name}
-                                            className="flex justify-between items-center p-4 rounded-xl bg-white neo-border hover:bg-yellow-custom/30 transition-all duration-300 group/item shadow-neo hover:shadow-neo-lg"
+                                            className="flex justify-between items-center p-3 sm:p-4 rounded-xl bg-white neo-border hover:bg-yellow-custom/30 transition-all duration-300 group/item shadow-neo hover:shadow-neo-lg gap-3"
                                         >
-                                            <span className="text-indigo-custom font-bold group-hover/item:text-primary transition-colors text-lg">
+                                            <span className="text-indigo-custom font-bold group-hover/item:text-primary transition-colors text-base sm:text-lg break-words flex-1 min-w-0">
                                                 {name}
                                             </span>
-                                            <span className="bg-primary text-white px-4 py-2 rounded-lg font-black text-lg neo-border shadow-neo">
+                                            <span className="bg-primary text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg font-black text-base sm:text-lg neo-border shadow-neo shrink-0">
                                                 ₹{price}
                                             </span>
                                         </li>
@@ -125,13 +127,13 @@ function Menu() {
 
                 {/* Empty State */}
                 {menuItems.length === 0 && (
-                    <div className="text-center py-32">
-                        <div className="bg-white neo-border rounded-3xl shadow-neo-lg p-16 max-w-md mx-auto">
-                            <div className="size-24 bg-yellow-custom/20 neo-border rounded-full flex items-center justify-center mx-auto mb-8">
-                                <UtensilsCrossed className="w-12 h-12 text-indigo-custom/30" />
+                    <div className="text-center py-20 sm:py-32">
+                        <div className="bg-white neo-border rounded-3xl shadow-neo-lg p-10 sm:p-16 max-w-md mx-auto">
+                            <div className="size-20 sm:size-24 bg-yellow-custom/20 neo-border rounded-full flex items-center justify-center mx-auto mb-6 sm:mb-8">
+                                <UtensilsCrossed className="w-10 h-10 sm:w-12 sm:h-12 text-indigo-custom/30" />
                             </div>
-                            <p className="text-indigo-custom text-3xl font-black mb-3 uppercase">No Menu Available</p>
-                            <p className="text-indigo-custom/60 font-bold">Check back soon for delicious updates!</p>
+                            <p className="text-indigo-custom text-2xl sm:text-3xl font-black mb-3 uppercase">No Menu Available</p>
+                            <p className="text-indigo-custom/60 font-bold text-sm sm:text-base">Check back soon for delicious updates!</p>
                         </div>
                     </div>
                 )}
@@ -153,12 +155,22 @@ function Menu() {
                     transform: translate(2px, 2px);
                     box-shadow: 0px 0px 0px 0px #312e81;
                 }
+                .btn-lifted:active {
+                    transform: translate(4px, 4px);
+                    box-shadow: 0px 0px 0px 0px #312e81;
+                }
                 .card-lifted {
                     transition: all 0.2s ease;
                 }
                 .card-lifted:hover {
                     transform: translate(-4px, -4px);
                     box-shadow: 12px 12px 0px 0px #312e81;
+                }
+                @media (max-width: 640px) {
+                    .card-lifted:hover {
+                        transform: translate(-2px, -2px);
+                        box-shadow: 6px 6px 0px 0px #312e81;
+                    }
                 }
                 .bg-primary {
                     background-color: #f87116;
@@ -186,6 +198,11 @@ function Menu() {
                 }
                 .shadow-neo-lg {
                     box-shadow: 8px 8px 0px 0px #312e81;
+                }
+                @media (max-width: 640px) {
+                    .shadow-neo-lg {
+                        box-shadow: 4px 4px 0px 0px #312e81;
+                    }
                 }
                 .font-display {
                     font-family: system-ui, -apple-system, sans-serif;
