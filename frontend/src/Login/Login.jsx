@@ -82,7 +82,7 @@ function Login() {
                             <LogIn className="w-10 h-10 text-white stroke-[3]" />
                         </div>
                         <h2 className="text-4xl font-black text-indigo-custom mb-3 uppercase tracking-tight">
-                            Welcome Back
+                            Welcome Back Owner
                         </h2>
                         <p className="text-indigo-custom/70 font-bold text-lg">Login to your account</p>
                         
