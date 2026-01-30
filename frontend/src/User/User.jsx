@@ -56,7 +56,6 @@ function UserDashboard() {
                 console.log("hi");
 
                 const target = new Date(res.data.date_of_expire);
-                // console.log(target);
 
                 const updateOnce = () => {
                     const now = new Date();
@@ -67,30 +66,23 @@ function UserDashboard() {
                         console.log("done in user");
 
                         clearInterval(intervalId);
-                        // window.location.reload();
                         return;
                     }
 
-                    // total seconds remaining (integer)
                     const totalSec = Math.floor(diffMs / 1000);
 
-                    // breakdown
                     const d = Math.floor(totalSec / (60 * 60 * 24));
                     const h = Math.floor((totalSec % (60 * 60 * 24)) / (60 * 60));
                     const m = Math.floor((totalSec % (60 * 60)) / 60);
                     const s = totalSec % 60;
 
-                    //   console.log(`Computed -> Days: ${d}, Hours: ${h}, Minutes: ${m}, Seconds: ${s}`);
-
-                    // now update state (async)
                     setDays(d);
                     setHours(h);
                     setMinutes(m);
                     setSeconds(s);
-                    // console.log(`${d} Days ${h} Hours ${m} Minutes ${s} Seconds`);
                 };
 
-                updateOnce(); // set initial values right away
+                updateOnce();
 
                 intervalId = setInterval(updateOnce, 1000);
             })
@@ -118,8 +110,8 @@ function UserDashboard() {
 
     if (loading) {
         return (
-            <div className={`min-h-screen ${subs ? 'bg-linear-to-br from-purple-900 via-indigo-900 to-blue-900' : 'bg-linear-to-br from-orange-50 to-amber-50'} flex items-center justify-center`}>
-                <div className={`animate-spin rounded-full h-16 w-16 border-t-4 ${subs ? 'border-yellow-400' : 'border-orange-500'}`}></div>
+            <div className="min-h-screen bg-background-light dot-pattern flex items-center justify-center">
+                <div className={`w-16 h-16 border-4 rounded-full animate-spin ${subs ? 'border-yellow-custom border-t-indigo-custom' : 'border-indigo-custom border-t-primary'}`}></div>
             </div>
         );
     }
@@ -127,114 +119,107 @@ function UserDashboard() {
     // Premium/Subscribed UI
     if (subs) {
         return (
-            <div className="min-h-screen bg-linear-to-br from-purple-900 via-indigo-900 to-blue-900 py-8 px-4">
+            <div className="min-h-screen bg-background-light dot-pattern py-8 px-4 font-display">
                 <div className="max-w-6xl mx-auto">
                     {/* Premium Header */}
                     <div className="mb-8 relative">
                         <div className="absolute top-0 right-0">
-                            <div className="flex items-center bg-linear-to-r from-yellow-400 to-amber-500 px-4 py-2 rounded-full shadow-lg">
-                                <Crown className="w-5 h-5 text-white mr-2" />
-                                <span className={` font-bold ${minutes <= 0 ? `text-red-500` : `text-white`}`}>{`${days}d ${hours}h ${minutes}m ${seconds}s`}</span>
+                            <div className="flex items-center bg-yellow-custom neo-border px-4 py-2 rounded-full shadow-neo">
+                                <Crown className="w-5 h-5 text-indigo-custom mr-2 stroke-[2.5]" />
+                                <span className={`font-black ${minutes <= 0 ? 'text-red-500' : 'text-indigo-custom'}`}>{`${days}d ${hours}h ${minutes}m ${seconds}s`}</span>
                             </div>
                         </div>
-                        <h1 className="text-4xl font-bold text-white mb-2 flex items-center">
+                        <h1 className="text-5xl font-black text-indigo-custom mb-2 flex items-center uppercase tracking-tight">
                             Dashboard
-                            <Sparkles className="w-8 h-8 text-yellow-400 ml-3 animate-pulse" />
+                            <Sparkles className="w-10 h-10 text-yellow-custom ml-4 pulse-scale stroke-[2.5]" />
                         </h1>
-                        <p className="text-purple-200">Welcome to your premium experience</p>
+                        <p className="text-indigo-custom/70 font-bold uppercase tracking-wide">Welcome to your premium experience</p>
                     </div>
 
                     {/* Premium User Profile Card */}
-                    <div className="bg-linear-to-br from-purple-800 to-indigo-900 rounded-2xl shadow-2xl p-8 mb-8 border-2 border-yellow-400/30 relative overflow-hidden">
-                        {/* Animated background effect */}
-                        <div className="absolute top-0 right-0 w-64 h-64 bg-yellow-400/10 rounded-full blur-3xl"></div>
-
+                    <div className="bg-white neo-border rounded-2xl shadow-neo-lg p-8 mb-8 relative overflow-hidden">
                         <div className="flex items-center mb-6 relative z-10">
-                            <div className="w-16 h-16 bg-linear-to-br from-yellow-400 to-amber-500 rounded-full flex items-center justify-center shadow-lg ring-4 ring-yellow-400/30">
-                                <User className="w-8 h-8 text-white" />
+                            <div className="w-20 h-20 bg-yellow-custom neo-border rounded-2xl flex items-center justify-center shadow-neo rotate-tilt">
+                                <User className="w-10 h-10 text-white stroke-[2.5]" />
                             </div>
                             <div className="ml-4">
-                                <div className="flex items-center">
-                                    <h2 className="text-2xl font-bold text-white">{user.fullName}</h2>
-                                    <Crown className="w-6 h-6 text-yellow-400 ml-2" />
+                                <div className="flex items-center gap-2">
+                                    <h2 className="text-3xl font-black text-indigo-custom uppercase tracking-tight">{user.fullName}</h2>
+                                    <Crown className="w-7 h-7 text-yellow-custom fill-yellow-custom stroke-[2.5]" />
                                 </div>
-                                <div className="flex items-center mt-1">
-                                    <p className="text-purple-200">Premium Mess Owner</p>
-                                    <div className="flex ml-2">
-                                        <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-                                        <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-                                        <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-                                    </div>
+                                <div className="flex items-center mt-1 gap-2">
+                                    <p className="text-indigo-custom/70 font-bold uppercase text-sm">Premium Mess Owner</p>
+                                    
                                 </div>
                             </div>
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 relative z-10">
-                            <div className="flex items-center p-4 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20">
-                                <Mail className="w-5 h-5 text-yellow-400 mr-3" />
+                            <div className="flex items-center p-4 bg-yellow-custom/10 rounded-xl neo-border">
+                                <Mail className="w-6 h-6 text-primary mr-3 stroke-[2.5]" />
                                 <div>
-                                    <p className="text-xs text-purple-200 font-medium">Email</p>
-                                    <p className="text-white font-medium">{user.email}</p>
+                                    <p className="text-xs text-indigo-custom/70 font-black uppercase tracking-wide">Email</p>
+                                    <p className="text-indigo-custom font-bold">{user.email}</p>
                                 </div>
                             </div>
 
-                            <div className="flex items-center p-4 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20">
-                                <Home className="w-5 h-5 text-yellow-400 mr-3" />
+                            <div className="flex items-center p-4 bg-yellow-custom/10 rounded-xl neo-border">
+                                <Home className="w-6 h-6 text-primary mr-3 stroke-[2.5]" />
                                 <div>
-                                    <p className="text-xs text-purple-200 font-medium">Mess Name</p>
-                                    <p className="text-white font-medium">{user.messName}</p>
+                                    <p className="text-xs text-indigo-custom/70 font-black uppercase tracking-wide">Mess Name</p>
+                                    <p className="text-indigo-custom font-bold">{user.messName}</p>
                                 </div>
                             </div>
 
-                            <div className="flex items-center p-4 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 md:col-span-2">
-                                <MapPin className="w-5 h-5 text-yellow-400 mr-3" />
+                            <div className="flex items-center p-4 bg-yellow-custom/10 rounded-xl neo-border md:col-span-2">
+                                <MapPin className="w-6 h-6 text-primary mr-3 stroke-[2.5]" />
                                 <div>
-                                    <p className="text-xs text-purple-200 font-medium">Address</p>
-                                    <p className="text-white font-medium">{user.messAddress}</p>
+                                    <p className="text-xs text-indigo-custom/70 font-black uppercase tracking-wide">Address</p>
+                                    <p className="text-indigo-custom font-bold">{user.messAddress}</p>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     {/* Premium Food Items Section */}
-                    <div className="bg-linear-to-br from-purple-800 to-indigo-900 rounded-2xl shadow-2xl p-8 border-2 border-yellow-400/30">
-                        <div className="flex items-center justify-between mb-6">
+                    <div className="bg-white neo-border rounded-2xl shadow-neo-lg p-8">
+                        <div className="flex items-center justify-between mb-6 flex-wrap gap-4">
                             <div className="flex items-center">
-                                <Package className="w-6 h-6 text-yellow-400 mr-3" />
-                                <h2 className="text-2xl font-bold text-white">Your Premium Menu</h2>
+                                <Package className="w-7 h-7 text-yellow-custom mr-3 stroke-[2.5]" />
+                                <h2 className="text-3xl font-black text-indigo-custom uppercase tracking-tight">Your Premium Menu</h2>
                             </div>
-                            <span className="bg-linear-to-r from-yellow-400 to-amber-500 text-white px-4 py-1 rounded-full text-sm font-semibold shadow-lg">
+                            <span className="bg-yellow-custom neo-border text-indigo-custom px-6 py-2 rounded-full text-sm font-black shadow-neo uppercase tracking-wide">
                                 {foodItems.length} {foodItems.length === 1 ? 'Item' : 'Items'}
                             </span>
                         </div>
 
                         {foodItems.length === 0 ? (
                             <div className="text-center py-12">
-                                <ChefHat className="w-16 h-16 text-purple-300 mx-auto mb-4" />
-                                <p className="text-white text-lg">No food items yet</p>
-                                <p className="text-purple-200 text-sm">Add your first menu item to get started</p>
+                                <ChefHat className="w-20 h-20 text-indigo-custom/30 mx-auto mb-4 stroke-[2.5]" />
+                                <p className="text-indigo-custom text-lg font-black uppercase">No food items yet</p>
+                                <p className="text-indigo-custom/70 text-sm font-medium">Add your first menu item to get started</p>
                             </div>
                         ) : (
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 {foodItems.map((foodItem) => (
                                     <div
                                         key={foodItem._id}
-                                        className="bg-linear-to-br from-white/10 to-purple-900/50 backdrop-blur-sm border-2 border-yellow-400/40 rounded-xl p-6 hover:shadow-2xl transition-all duration-300 hover:border-yellow-400 hover:scale-105"
+                                        className="bg-yellow-custom/10 neo-border rounded-xl p-6 hover:shadow-neo-lg transition-all duration-300 card-lifted"
                                     >
                                         <div className="flex items-center justify-between mb-4">
                                             <div className="flex items-center">
-                                                <div className="w-10 h-10 bg-linear-to-br from-yellow-400 to-amber-500 rounded-lg flex items-center justify-center shadow-lg">
-                                                    <ChefHat className="w-5 h-5 text-white" />
+                                                <div className="w-12 h-12 bg-yellow-custom neo-border rounded-xl flex items-center justify-center shadow-neo">
+                                                    <ChefHat className="w-6 h-6 text-white stroke-[2.5]" />
                                                 </div>
                                                 <div className="ml-3">
-                                                    <p className="text-sm text-white font-semibold">{foodItem.day.toUpperCase()} MENU</p>
+                                                    <p className="text-sm text-indigo-custom font-black uppercase tracking-wide">{foodItem.day} Menu</p>
                                                 </div>
                                             </div>
                                             <NavLink
                                                 to={`/editItem/${foodItem._id}`}
-                                                className="flex items-center bg-linear-to-r from-yellow-400 to-amber-500 hover:from-yellow-500 hover:to-amber-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 shadow-lg"
+                                                className="btn-lifted flex items-center bg-primary hover:bg-yellow-custom hover:text-indigo-custom text-white neo-border px-4 py-2 rounded-lg text-sm font-black transition-all duration-200 shadow-neo uppercase tracking-wide"
                                             >
-                                                <Edit3 className="w-4 h-4 mr-2" />
+                                                <Edit3 className="w-4 h-4 mr-2 stroke-[2.5]" />
                                                 Edit
                                             </NavLink>
                                         </div>
@@ -243,10 +228,10 @@ function UserDashboard() {
                                             {Object.entries(foodItem.item).map(([name, price]) => (
                                                 <div
                                                     key={name}
-                                                    className="flex items-center justify-between bg-white/10 backdrop-blur-sm p-3 rounded-lg border border-white/20"
+                                                    className="flex items-center justify-between bg-white neo-border p-3 rounded-lg shadow-neo-sm"
                                                 >
-                                                    <span className="text-white font-medium">{name}</span>
-                                                    <span className="text-yellow-400 font-bold">₹{price}</span>
+                                                    <span className="text-indigo-custom font-bold">{name}</span>
+                                                    <span className="text-primary font-black">₹{price}</span>
                                                 </div>
                                             ))}
                                         </div>
@@ -256,98 +241,182 @@ function UserDashboard() {
                         )}
                     </div>
                 </div>
+
+                <style jsx>{`
+                    .neo-border {
+                        border: 3px solid #312e81;
+                    }
+                    .dot-pattern {
+                        background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
+                        background-size: 20px 20px;
+                    }
+                    .btn-lifted {
+                        transition: all 0.2s ease;
+                        box-shadow: 4px 4px 0px 0px #312e81;
+                    }
+                    .btn-lifted:hover {
+                        transform: translate(2px, 2px);
+                        box-shadow: 0px 0px 0px 0px #312e81;
+                    }
+                    .card-lifted {
+                        transition: all 0.2s ease;
+                    }
+                    .card-lifted:hover {
+                        transform: translate(-4px, -4px);
+                        box-shadow: 12px 12px 0px 0px #312e81;
+                    }
+                    .bg-primary {
+                        background-color: #f87116;
+                    }
+                    .text-primary {
+                        color: #f87116;
+                    }
+                    .bg-indigo-custom {
+                        background-color: #312e81;
+                    }
+                    .text-indigo-custom {
+                        color: #312e81;
+                    }
+                    .bg-yellow-custom {
+                        background-color: #facc15;
+                    }
+                    .text-yellow-custom {
+                        color: #facc15;
+                    }
+                    .bg-background-light {
+                        background-color: #fffdf5;
+                    }
+                    .shadow-neo-sm {
+                        box-shadow: 2px 2px 0px 0px #312e81;
+                    }
+                    .shadow-neo {
+                        box-shadow: 4px 4px 0px 0px #312e81;
+                    }
+                    .shadow-neo-lg {
+                        box-shadow: 8px 8px 0px 0px #312e81;
+                    }
+                    .font-display {
+                        font-family: system-ui, -apple-system, sans-serif;
+                    }
+                    
+                    @keyframes pulse-scale {
+                        0%, 100% {
+                            transform: scale(1);
+                        }
+                        50% {
+                            transform: scale(1.1);
+                        }
+                    }
+                    
+                    @keyframes rotate-tilt {
+                        0%, 100% {
+                            transform: rotate(0deg);
+                        }
+                        50% {
+                            transform: rotate(3deg);
+                        }
+                    }
+                    
+                    .pulse-scale {
+                        animation: pulse-scale 2s ease-in-out infinite;
+                    }
+                    
+                    .rotate-tilt {
+                        animation: rotate-tilt 3s ease-in-out infinite;
+                    }
+                `}</style>
             </div>
         );
     }
 
     // Standard/Free UI
     return (
-        <div className="min-h-screen bg-linear-to-br from-orange-50 to-amber-50 py-8 px-4">
+        <div className="min-h-screen bg-background-light dot-pattern py-8 px-4 font-display">
             <div className="max-w-6xl mx-auto">
                 {/* Header */}
                 <div className="mb-8">
-                    <h1 className="text-4xl font-bold text-gray-800 mb-2">Dashboard</h1>
+                    <h1 className="text-5xl font-black text-indigo-custom uppercase tracking-tight">Dashboard</h1>
+                    <p className="text-indigo-custom/70 font-bold mt-2">Manage your mess menu</p>
                 </div>
 
                 {/* User Profile Card */}
-                <div className="bg-white rounded-2xl shadow-lg p-8 mb-8 border border-orange-100">
+                <div className="bg-white neo-border rounded-2xl shadow-neo-lg p-8 mb-8">
                     <div className="flex items-center mb-6">
-                        <div className="w-16 h-16 bg-linear-to-br from-orange-400 to-amber-500 rounded-full flex items-center justify-center">
-                            <User className="w-8 h-8 text-white" />
+                        <div className="w-20 h-20 bg-primary neo-border rounded-2xl flex items-center justify-center shadow-neo rotate-tilt">
+                            <User className="w-10 h-10 text-white stroke-[2.5]" />
                         </div>
                         <div className="ml-4">
-                            <h2 className="text-2xl font-bold text-gray-800">{user.fullName}</h2>
-                            <p className="text-gray-500">Mess Owner</p>
+                            <h2 className="text-3xl font-black text-indigo-custom uppercase tracking-tight">{user.fullName}</h2>
+                            <p className="text-indigo-custom/70 font-bold uppercase text-sm mt-1">Mess Owner</p>
                         </div>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className="flex items-center p-4 bg-orange-50 rounded-xl">
-                            <Mail className="w-5 h-5 text-orange-500 mr-3" />
+                        <div className="flex items-center p-4 bg-primary/10 rounded-xl neo-border">
+                            <Mail className="w-6 h-6 text-primary mr-3 stroke-[2.5]" />
                             <div>
-                                <p className="text-xs text-gray-500 font-medium">Email</p>
-                                <p className="text-gray-800 font-medium">{user.email}</p>
+                                <p className="text-xs text-indigo-custom/70 font-black uppercase tracking-wide">Email</p>
+                                <p className="text-indigo-custom font-bold">{user.email}</p>
                             </div>
                         </div>
 
-                        <div className="flex items-center p-4 bg-amber-50 rounded-xl">
-                            <Home className="w-5 h-5 text-amber-600 mr-3" />
+                        <div className="flex items-center p-4 bg-primary/10 rounded-xl neo-border">
+                            <Home className="w-6 h-6 text-primary mr-3 stroke-[2.5]" />
                             <div>
-                                <p className="text-xs text-gray-500 font-medium">Mess Name</p>
-                                <p className="text-gray-800 font-medium">{user.messName}</p>
+                                <p className="text-xs text-indigo-custom/70 font-black uppercase tracking-wide">Mess Name</p>
+                                <p className="text-indigo-custom font-bold">{user.messName}</p>
                             </div>
                         </div>
 
-                        <div className="flex items-center p-4 bg-orange-50 rounded-xl md:col-span-2">
-                            <MapPin className="w-5 h-5 text-orange-500 mr-3" />
+                        <div className="flex items-center p-4 bg-primary/10 rounded-xl neo-border md:col-span-2">
+                            <MapPin className="w-6 h-6 text-primary mr-3 stroke-[2.5]" />
                             <div>
-                                <p className="text-xs text-gray-500 font-medium">Address</p>
-                                <p className="text-gray-800 font-medium">{user.messAddress}</p>
+                                <p className="text-xs text-indigo-custom/70 font-black uppercase tracking-wide">Address</p>
+                                <p className="text-indigo-custom font-bold">{user.messAddress}</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 {/* Food Items Section */}
-                <div className="bg-white rounded-2xl shadow-lg p-8 border border-orange-100">
-                    <div className="flex items-center justify-between mb-6">
+                <div className="bg-white neo-border rounded-2xl shadow-neo-lg p-8">
+                    <div className="flex items-center justify-between mb-6 flex-wrap gap-4">
                         <div className="flex items-center">
-                            <Package className="w-6 h-6 text-orange-500 mr-3" />
-                            <h2 className="text-2xl font-bold text-gray-800">Your Food Items</h2>
+                            <Package className="w-7 h-7 text-primary mr-3 stroke-[2.5]" />
+                            <h2 className="text-3xl font-black text-indigo-custom uppercase tracking-tight">Your Food Items</h2>
                         </div>
-                        <span className="bg-orange-100 text-orange-700 px-4 py-1 rounded-full text-sm font-semibold">
+                        <span className="bg-primary neo-border text-white px-6 py-2 rounded-full text-sm font-black shadow-neo uppercase tracking-wide">
                             {foodItems.length} {foodItems.length === 1 ? 'Item' : 'Items'}
                         </span>
                     </div>
 
                     {foodItems.length === 0 ? (
                         <div className="text-center py-12">
-                            <ChefHat className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                            <p className="text-gray-500 text-lg">No food items yet</p>
-                            <p className="text-gray-400 text-sm">Add your first menu item to get started</p>
+                            <ChefHat className="w-20 h-20 text-indigo-custom/30 mx-auto mb-4 stroke-[2.5]" />
+                            <p className="text-indigo-custom text-lg font-black uppercase">No food items yet</p>
+                            <p className="text-indigo-custom/70 text-sm font-medium">Add your first menu item to get started</p>
                         </div>
                     ) : (
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             {foodItems.map((foodItem) => (
                                 <div
                                     key={foodItem._id}
-                                    className="bg-linear-to-br from-white to-orange-50 border-2 border-orange-200 rounded-xl p-6 hover:shadow-xl transition-all duration-300 hover:border-orange-300"
+                                    className="bg-primary/10 neo-border rounded-xl p-6 hover:shadow-neo-lg transition-all duration-300 card-lifted"
                                 >
                                     <div className="flex items-center justify-between mb-4">
                                         <div className="flex items-center">
-                                            <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center">
-                                                <ChefHat className="w-5 h-5 text-white" />
+                                            <div className="w-12 h-12 bg-primary neo-border rounded-xl flex items-center justify-center shadow-neo">
+                                                <ChefHat className="w-6 h-6 text-white stroke-[2.5]" />
                                             </div>
                                             <div className="ml-3">
-                                                <p className="text-xs text-gray-500 font-medium">Chef ID</p>
-                                                <p className="text-sm text-gray-700 font-semibold">{foodItem.day.toUpperCase()} MENU</p>
+                                                <p className="text-sm text-indigo-custom font-black uppercase tracking-wide">{foodItem.day} Menu</p>
                                             </div>
                                         </div>
                                         <NavLink
                                             to={`/editItem/${foodItem._id}`}
-                                            className="flex items-center bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200"
+                                            className="btn-lifted flex items-center bg-primary hover:bg-indigo-custom text-white neo-border px-4 py-2 rounded-lg text-sm font-black transition-all duration-200 shadow-neo uppercase tracking-wide"
                                         >
-                                            <Edit3 className="w-4 h-4 mr-2" />
+                                            <Edit3 className="w-4 h-4 mr-2 stroke-[2.5]" />
                                             Edit
                                         </NavLink>
                                     </div>
@@ -356,10 +425,10 @@ function UserDashboard() {
                                         {Object.entries(foodItem.item).map(([name, price]) => (
                                             <div
                                                 key={name}
-                                                className="flex items-center justify-between bg-white p-3 rounded-lg border border-orange-100"
+                                                className="flex items-center justify-between bg-white neo-border p-3 rounded-lg shadow-neo-sm"
                                             >
-                                                <span className="text-gray-700 font-medium">{name}</span>
-                                                <span className="text-orange-600 font-bold">₹{price}</span>
+                                                <span className="text-indigo-custom font-bold">{name}</span>
+                                                <span className="text-primary font-black">₹{price}</span>
                                             </div>
                                         ))}
                                     </div>
@@ -369,6 +438,77 @@ function UserDashboard() {
                     )}
                 </div>
             </div>
+
+            <style jsx>{`
+                .neo-border {
+                    border: 3px solid #312e81;
+                }
+                .dot-pattern {
+                    background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
+                    background-size: 20px 20px;
+                }
+                .btn-lifted {
+                    transition: all 0.2s ease;
+                    box-shadow: 4px 4px 0px 0px #312e81;
+                }
+                .btn-lifted:hover {
+                    transform: translate(2px, 2px);
+                    box-shadow: 0px 0px 0px 0px #312e81;
+                }
+                .card-lifted {
+                    transition: all 0.2s ease;
+                }
+                .card-lifted:hover {
+                    transform: translate(-4px, -4px);
+                    box-shadow: 12px 12px 0px 0px #312e81;
+                }
+                .bg-primary {
+                    background-color: #f87116;
+                }
+                .text-primary {
+                    color: #f87116;
+                }
+                .bg-indigo-custom {
+                    background-color: #312e81;
+                }
+                .text-indigo-custom {
+                    color: #312e81;
+                }
+                .bg-yellow-custom {
+                    background-color: #facc15;
+                }
+                .text-yellow-custom {
+                    color: #facc15;
+                }
+                .bg-background-light {
+                    background-color: #fffdf5;
+                }
+                .shadow-neo-sm {
+                    box-shadow: 2px 2px 0px 0px #312e81;
+                }
+                .shadow-neo {
+                    box-shadow: 4px 4px 0px 0px #312e81;
+                }
+                .shadow-neo-lg {
+                    box-shadow: 8px 8px 0px 0px #312e81;
+                }
+                .font-display {
+                    font-family: system-ui, -apple-system, sans-serif;
+                }
+                
+                @keyframes rotate-tilt {
+                    0%, 100% {
+                        transform: rotate(0deg);
+                    }
+                    50% {
+                        transform: rotate(3deg);
+                    }
+                }
+                
+                .rotate-tilt {
+                    animation: rotate-tilt 3s ease-in-out infinite;
+                }
+            `}</style>
         </div>
     )
 }

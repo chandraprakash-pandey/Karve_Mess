@@ -80,7 +80,7 @@ function Subs() {
             amount,
             currency: 'INR',
             name: 'Karve Mess',
-            description: 'Weekly Pro Plan',
+            description: 'Mnethly Pro Plan',
             order_id: order.id,
             handler: async function (response) {
                 try {
@@ -95,7 +95,7 @@ function Subs() {
                     );
 
                     if (verifyRes.data.success) {
-                        window.location.href = "/user";   // ✅ REAL redirect
+                        window.location.href = "/user";
                     } else {
                         alert("Payment verification failed");
                     }
@@ -107,10 +107,9 @@ function Subs() {
             prefill: {
                 name: 'Chandraprakash Pandey',
                 email: user.email,
-                // contact: '9999999999'
             },
             theme: {
-                color: '#060301ff'
+                color: '#312e81'
             },
         };
 
@@ -123,80 +122,73 @@ function Subs() {
         "Plan all dishes at once",
         "Schedule specific dishes for each day",
         "Save time with bulk menu management",
-        "Edit anytime during the week",
+        "Edit anytime during the Month",
         "Priority support"
     ];
 
     return (
-        <div className='min-h-screen bg-linear-to-br from-amber-50 via-orange-50 to-red-50 py-16 px-4'>
+        <div className='min-h-screen bg-background-light dot-pattern py-16 px-4 font-display'>
             <div className='container mx-auto max-w-6xl'>
                 {/* Header */}
                 <div className='text-center mb-12'>
-                    <div className='inline-flex items-center gap-2 bg-orange-100 px-4 py-2 rounded-full mb-4'>
-                        <Sparkles className='w-4 h-4 text-orange-600' />
-                        <span className='text-sm font-semibold text-orange-700'>Premium Feature</span>
+                    <div className='inline-flex items-center gap-2 bg-yellow-custom neo-border px-6 py-3 rounded-full mb-6 shadow-neo'>
+                        <Sparkles className='w-5 h-5 text-indigo-custom stroke-[2.5]' />
+                        <span className='text-sm font-black text-indigo-custom uppercase tracking-wide'>Premium Feature</span>
                     </div>
-                    <h1 className='text-5xl font-bold text-gray-900 mb-4'>
+                    <h1 className='text-6xl font-black text-indigo-custom mb-6 uppercase tracking-tight leading-tight'>
                         Upgrade Your Mess Management
                     </h1>
-                    <p className='text-xl text-gray-600 max-w-2xl mx-auto'>
+                    <p className='text-xl text-indigo-custom/70 max-w-2xl mx-auto font-bold'>
                         Plan your entire week's menu at once and save valuable time
                     </p>
                 </div>
 
                 {/* Subscription Card */}
                 <div className='max-w-md mx-auto'>
-                    {/* NOTE: overflow-visible so the circular badge isn't clipped */}
-                    <div className='bg-white rounded-3xl shadow-2xl overflow-visible border-4 border-orange-200 relative'>
-                        {/* Premium Badge (true circle) */}
-                        <div className='absolute top-6 right-6'>
-                            {/* make the badge a fixed-size circle with gradient and shadow */}
-                            <div className='w-12 h-12 bg-linear-to-r from-orange-500 to-red-600 p-2 rounded-full flex items-center justify-center shadow-lg'>
-                                <Crown className='w-6 h-6 text-white' />
-                            </div>
-                        </div>
+                    <div className='bg-white neo-border rounded-2xl shadow-neo-lg overflow-visible relative'>
+                        
 
                         <div className='p-8'>
                             {/* Plan Header */}
                             <div className='mb-8'>
-                                <h2 className='text-3xl font-bold text-gray-900 mb-2'>Weekly Pro Plan</h2>
-                                <p className='text-gray-600'>Perfect for efficient mess management</p>
+                                <h2 className='text-4xl font-black text-indigo-custom mb-2 uppercase tracking-tight'>Monthly Pro Plan</h2>
+                                <p className='text-indigo-custom/70 font-bold'>Perfect for efficient mess management</p>
                             </div>
 
                             {/* Pricing */}
-                            <div className='mb-8 bg-linear-to-br from-orange-50 to-red-50 p-6 rounded-2xl'>
+                            <div className='mb-8 bg-primary/10 neo-border p-6 rounded-xl shadow-neo-sm'>
                                 <div className='flex items-baseline gap-2'>
-                                    <span className='text-5xl font-bold text-gray-900'>₹1</span>
-                                    <span className='text-gray-600'>/week</span>
+                                    <span className='text-6xl font-black text-indigo-custom'>₹1</span>
+                                    <span className='text-indigo-custom/70 font-bold'>/month</span>
                                 </div>
-                                <p className='text-sm text-gray-600 mt-2'>Billed weekly • Cancel anytime</p>
+                                <p className='text-sm text-indigo-custom/70 mt-2 font-medium'>Billed Mothly</p>
                             </div>
 
                             {/* Features List */}
                             <div className='mb-8'>
-                                <h3 className='font-bold text-lg text-gray-900 mb-4 flex items-center gap-2'>
-                                    <Zap className='w-5 h-5 text-orange-600' />
+                                <h3 className='font-black text-lg text-indigo-custom mb-4 flex items-center gap-2 uppercase tracking-wide'>
+                                    <Zap className='w-6 h-6 text-primary stroke-[2.5]' />
                                     What's Included
                                 </h3>
                                 <ul className='space-y-3'>
                                     {features.map((feature, idx) => (
                                         <li key={idx} className='flex items-start gap-3'>
-                                            <div className='bg-green-100 rounded-full p-1 mt-0.5'>
-                                                <Check className='w-4 h-4 text-green-600' />
+                                            <div className='bg-primary neo-border rounded-lg p-1.5 mt-0.5 shrink-0'>
+                                                <Check className='w-4 h-4 text-white stroke-[3]' />
                                             </div>
-                                            <span className='text-gray-700'>{feature}</span>
+                                            <span className='text-indigo-custom font-medium'>{feature}</span>
                                         </li>
                                     ))}
                                 </ul>
                             </div>
 
                             {/* Key Benefit Box */}
-                            <div className='mb-8 bg-linear-to-br from-blue-50 to-purple-50 p-6 rounded-2xl border-2 border-blue-200'>
+                            <div className='mb-8 bg-yellow-custom/20 neo-border p-6 rounded-xl shadow-neo-sm'>
                                 <div className='flex items-start gap-3'>
-                                    <Calendar className='w-6 h-6 text-blue-600 mt-1' />
+                                    <Calendar className='w-7 h-7 text-primary mt-1 shrink-0 stroke-[2.5]' />
                                     <div>
-                                        <h4 className='font-bold text-gray-900 mb-2'>Weekly Menu Planning</h4>
-                                        <p className='text-sm text-gray-700 leading-relaxed'>
+                                        <h4 className='font-black text-indigo-custom mb-2 uppercase tracking-wide'>Weekly Menu Planning</h4>
+                                        <p className='text-sm text-indigo-custom/70 leading-relaxed font-medium'>
                                             Set your entire week's menu on Monday and forget about daily updates.
                                             Schedule breakfast, lunch, and dinner for all 7 days in one go.
                                             Make changes anytime with our flexible editing tools.
@@ -209,26 +201,96 @@ function Subs() {
                             <button
                                 onClick={() => checkoutHandler()}
                                 disabled={minutes > 0}
-                                className={`w-full text-white py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-2 transition-all ${minutes <= 0 ? "bg-linear-to-r from-orange-500 to-red-600 hover:shadow-2xl hover:scale-105" : "bg-black"} ${minutes > 0 ? "opacity-50 cursor-not-allowed" : ""}`}
+                                className={`btn-lifted w-full text-white py-5 rounded-xl font-black text-lg flex items-center justify-center gap-2 transition-all neo-border shadow-neo-lg uppercase tracking-widest ${minutes <= 0 ? "bg-primary hover:bg-yellow-custom hover:text-indigo-custom" : "bg-indigo-custom"} ${minutes > 0 ? "opacity-50 cursor-not-allowed" : ""}`}
                             >
-                                <Crown className='w-5 h-5' />
+                                <Crown className='w-6 h-6 stroke-[2.5]' />
                                 {minutes <= 0 ? "Subscribe Now" : "Your Current Plan"}
                             </button>
 
-                            <p className='text-center text-xs text-gray-500 mt-4'>
+                            <p className='text-center text-xs text-indigo-custom/60 mt-4 font-medium'>
                                 Secure payment • No hidden fees
                             </p>
                         </div>
                     </div>
 
                     {/* Trust Badge */}
-                    <div className='text-center mt-8 text-gray-600'>
-                        <p className='text-sm'>
-                            Trusted by 100+ mess owners • 4.9★ rating
-                        </p>
+                    <div className='text-center mt-8'>
+                        <div className='inline-flex items-center gap-2 bg-white neo-border px-6 py-3 rounded-full shadow-neo'>
+                            <span className='text-sm font-black text-indigo-custom'>
+                                Trusted by 100+ mess owners • 4.9★ rating
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
+
+            <style jsx>{`
+                .neo-border {
+                    border: 3px solid #312e81;
+                }
+                .dot-pattern {
+                    background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
+                    background-size: 20px 20px;
+                }
+                .btn-lifted {
+                    transition: all 0.2s ease;
+                    box-shadow: 4px 4px 0px 0px #312e81;
+                }
+                .btn-lifted:hover {
+                    transform: translate(2px, 2px);
+                    box-shadow: 0px 0px 0px 0px #312e81;
+                }
+                .btn-lifted:active {
+                    transform: translate(2px, 2px);
+                    box-shadow: 0px 0px 0px 0px #312e81;
+                }
+                .bg-primary {
+                    background-color: #f87116;
+                }
+                .text-primary {
+                    color: #f87116;
+                }
+                .bg-indigo-custom {
+                    background-color: #312e81;
+                }
+                .text-indigo-custom {
+                    color: #312e81;
+                }
+                .bg-yellow-custom {
+                    background-color: #facc15;
+                }
+                .text-yellow-custom {
+                    color: #facc15;
+                }
+                .bg-background-light {
+                    background-color: #fffdf5;
+                }
+                .shadow-neo-sm {
+                    box-shadow: 2px 2px 0px 0px #312e81;
+                }
+                .shadow-neo {
+                    box-shadow: 4px 4px 0px 0px #312e81;
+                }
+                .shadow-neo-lg {
+                    box-shadow: 8px 8px 0px 0px #312e81;
+                }
+                .font-display {
+                    font-family: system-ui, -apple-system, sans-serif;
+                }
+                
+                @keyframes rotate-tilt {
+                    0%, 100% {
+                        transform: rotate(0deg);
+                    }
+                    50% {
+                        transform: rotate(3deg);
+                    }
+                }
+                
+                .rotate-tilt {
+                    animation: rotate-tilt 3s ease-in-out infinite;
+                }
+            `}</style>
         </div>
     );
 }

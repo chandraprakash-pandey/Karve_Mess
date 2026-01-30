@@ -27,11 +27,7 @@ function Days() {
     }, [currentDay]);
 
     return (
-        <div className="w-full bg-slate-950 relative overflow-hidden border-b border-white/10 shadow-2xl">
-            {/* Background Decor (Glow effects) */}
-            <div className="absolute top-0 left-1/4 w-64 h-64 bg-purple-600/20 rounded-full blur-3xl pointer-events-none" />
-            <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />
-
+        <div className="w-full bg-background-light relative overflow-hidden border-b-4 border-indigo-custom shadow-neo-lg dot-pattern">
             <div className="max-w-7xl mx-auto px-4 relative z-10">
                 <nav 
                     ref={scrollRef}
@@ -39,11 +35,9 @@ function Days() {
                         flex items-center gap-3 py-6 
                         overflow-x-auto snap-x snap-mandatory
                         scrollbar-hide 
-                        /* Desktop: Center items, Mobile: Start align */
                         md:justify-center justify-start
                     "
                     style={{ 
-                        // Hides scrollbar for Firefox/IE/Edge
                         msOverflowStyle: 'none', 
                         scrollbarWidth: 'none' 
                     }}
@@ -51,6 +45,58 @@ function Days() {
                     {/* CSS to hide scrollbar for Webkit (Chrome/Safari) */}
                     <style>{`
                         nav::-webkit-scrollbar { display: none; }
+                        .neo-border {
+                            border: 3px solid #312e81;
+                        }
+                        .dot-pattern {
+                            background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
+                            background-size: 20px 20px;
+                        }
+                        .btn-lifted {
+                            transition: all 0.2s ease;
+                            box-shadow: 4px 4px 0px 0px #312e81;
+                        }
+                        .btn-lifted:hover {
+                            transform: translate(2px, 2px);
+                            box-shadow: 0px 0px 0px 0px #312e81;
+                        }
+                        .btn-lifted:active {
+                            transform: translate(2px, 2px);
+                            box-shadow: 0px 0px 0px 0px #312e81;
+                        }
+                        .bg-primary {
+                            background-color: #f87116;
+                        }
+                        .text-primary {
+                            color: #f87116;
+                        }
+                        .bg-indigo-custom {
+                            background-color: #312e81;
+                        }
+                        .text-indigo-custom {
+                            color: #312e81;
+                        }
+                        .bg-yellow-custom {
+                            background-color: #facc15;
+                        }
+                        .text-yellow-custom {
+                            color: #facc15;
+                        }
+                        .bg-background-light {
+                            background-color: #fffdf5;
+                        }
+                        .shadow-neo-sm {
+                            box-shadow: 2px 2px 0px 0px #312e81;
+                        }
+                        .shadow-neo {
+                            box-shadow: 4px 4px 0px 0px #312e81;
+                        }
+                        .shadow-neo-lg {
+                            box-shadow: 8px 8px 0px 0px #312e81;
+                        }
+                        .font-display {
+                            font-family: system-ui, -apple-system, sans-serif;
+                        }
                     `}</style>
 
                     {days.map((day) => {
@@ -64,31 +110,32 @@ function Days() {
                                 className="group relative shrink-0 snap-center"
                             >
                                 <div className={`
-                                    relative px-6 py-3 rounded-2xl 
-                                    font-medium text-sm transition-all duration-300 ease-out
-                                    border backdrop-blur-md
+                                    btn-lifted relative px-6 py-3 rounded-xl 
+                                    font-black text-sm transition-all duration-200
+                                    neo-border
                                     flex flex-col items-center justify-center
                                     min-w-20 sm:min-w-[100px]
+                                    uppercase tracking-wide
                                     ${isActive 
-                                        ? 'bg-violet-600/90 border-violet-400/50 text-white shadow-[0_0_20px_rgba(124,58,237,0.5)] scale-105 -translate-y-0.5' 
-                                        : 'bg-white/5 border-white/10 text-slate-400 hover:bg-white/10 hover:text-white hover:border-white/20'
+                                        ? 'bg-yellow-custom text-indigo-custom shadow-neo scale-105' 
+                                        : 'bg-white text-indigo-custom hover:bg-yellow-custom/30 shadow-neo-sm'
                                     }
                                 `}>
                                     {/* Mobile Text (Short) */}
-                                    <span className="block sm:hidden text-base tracking-wide">
+                                    <span className="block sm:hidden text-base">
                                         {day.short}
                                     </span>
                                     
                                     {/* Desktop Text (Full) */}
-                                    <span className="hidden sm:block capitalize tracking-wide">
+                                    <span className="hidden sm:block">
                                         {day.name}
                                     </span>
 
                                     {/* Active Indicator Dot (Bottom) */}
                                     <div className={`
-                                        absolute -bottom-1 left-1/2 transform -translate-x-1/2
-                                        w-8 h-1 rounded-full transition-all duration-300
-                                        ${isActive ? 'bg-white opacity-100' : 'bg-transparent opacity-0'}
+                                        absolute -bottom-2 left-1/2 transform -translate-x-1/2
+                                        w-3 h-3 rounded-full transition-all duration-300 neo-border
+                                        ${isActive ? 'bg-primary opacity-100' : 'bg-transparent opacity-0'}
                                     `} />
                                 </div>
                             </NavLink>

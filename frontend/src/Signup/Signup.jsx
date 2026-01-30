@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { User, Mail, Lock, Building2, MapPin, ArrowRight, CheckCircle2 } from "lucide-react";
+import { User, Mail, Lock, Building2, MapPin, ArrowRight, CheckCircle2, UtensilsCrossed } from "lucide-react";
 
 function Signup() {
   const navigate = useNavigate();
@@ -63,7 +63,6 @@ function Signup() {
     
     try {
       const res = await axios.post(`${apiUrl}/signup`, formData, { withCredentials: true });
-      // console.log("Signup successful:", res.data);
       navigate("/Login");
     } catch (error) {
       console.error("Error signing up:", error);
@@ -74,115 +73,115 @@ function Signup() {
   };
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-amber-50 via-orange-50 to-red-50 py-12 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-background-light font-display text-indigo-custom dot-pattern py-12 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
-        <div className="bg-white rounded-2xl shadow-xl p-8">
+        <div className="bg-white neo-border rounded-2xl shadow-neo-lg p-8">
           <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-linear-to-br from-blue-500 to-purple-600 rounded-full mb-4">
-              <User className="w-8 h-8 text-white" />
+            <div className="inline-flex items-center justify-center w-20 h-20 bg-primary neo-border rounded-2xl mb-4 shadow-neo">
+              <UtensilsCrossed className="w-10 h-10 text-white" />
             </div>
-            <h2 className="text-3xl font-bold text-gray-800">Create Account</h2>
-            <p className="text-gray-600 mt-2">Join us and manage your mess</p>
+            <h2 className="text-4xl font-black text-indigo-custom uppercase tracking-tight">Create Account</h2>
+            <p className="text-indigo-custom/70 font-bold mt-2">Join us and manage your mess</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label htmlFor="fullName" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="fullName" className="block text-sm font-black text-indigo-custom mb-2 uppercase tracking-wide">
                 Full Name
               </label>
               <div className="relative">
-                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-indigo-custom/60" />
                 <input
                   type="text"
                   id="fullName"
                   name="fullName"
                   value={formData.fullName}
                   onChange={handleChange}
-                  className={`w-full pl-11 pr-4 py-3 border ${errors.fullName ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none`}
+                  className={`w-full pl-11 pr-4 py-3 border-3 ${errors.fullName ? 'border-red-500' : 'border-indigo-custom'} bg-white rounded-lg focus:ring-0 focus:border-primary transition-all outline-none font-medium`}
                   placeholder="John Doe"
                 />
               </div>
-              {errors.fullName && <p className="text-red-500 text-sm mt-1">{errors.fullName}</p>}
+              {errors.fullName && <p className="text-red-500 text-sm font-bold mt-1">{errors.fullName}</p>}
             </div>
 
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="email" className="block text-sm font-black text-indigo-custom mb-2 uppercase tracking-wide">
                 Email Address
               </label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-indigo-custom/60" />
                 <input
                   type="email"
                   id="email"
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className={`w-full pl-11 pr-4 py-3 border ${errors.email ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none`}
+                  className={`w-full pl-11 pr-4 py-3 border-3 ${errors.email ? 'border-red-500' : 'border-indigo-custom'} bg-white rounded-lg focus:ring-0 focus:border-primary transition-all outline-none font-medium`}
                   placeholder="john@example.com"
                 />
               </div>
-              {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+              {errors.email && <p className="text-red-500 text-sm font-bold mt-1">{errors.email}</p>}
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="password" className="block text-sm font-black text-indigo-custom mb-2 uppercase tracking-wide">
                 Password
               </label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-indigo-custom/60" />
                 <input
                   type="password"
                   id="password"
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
-                  className={`w-full pl-11 pr-4 py-3 border ${errors.password ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none`}
+                  className={`w-full pl-11 pr-4 py-3 border-3 ${errors.password ? 'border-red-500' : 'border-indigo-custom'} bg-white rounded-lg focus:ring-0 focus:border-primary transition-all outline-none font-medium`}
                   placeholder="••••••••"
                 />
               </div>
-              {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
+              {errors.password && <p className="text-red-500 text-sm font-bold mt-1">{errors.password}</p>}
             </div>
 
             <div>
-              <label htmlFor="messName" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="messName" className="block text-sm font-black text-indigo-custom mb-2 uppercase tracking-wide">
                 Mess Name
               </label>
               <div className="relative">
-                <Building2 className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <Building2 className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-indigo-custom/60" />
                 <input
                   type="text"
                   id="messName"
                   name="messName"
                   value={formData.messName}
                   onChange={handleChange}
-                  className={`w-full pl-11 pr-4 py-3 border ${errors.messName ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none`}
+                  className={`w-full pl-11 pr-4 py-3 border-3 ${errors.messName ? 'border-red-500' : 'border-indigo-custom'} bg-white rounded-lg focus:ring-0 focus:border-primary transition-all outline-none font-medium`}
                   placeholder="Sunshine Mess"
                 />
               </div>
-              {errors.messName && <p className="text-red-500 text-sm mt-1">{errors.messName}</p>}
+              {errors.messName && <p className="text-red-500 text-sm font-bold mt-1">{errors.messName}</p>}
             </div>
 
             <div>
-              <label htmlFor="messAddress" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="messAddress" className="block text-sm font-black text-indigo-custom mb-2 uppercase tracking-wide">
                 Mess Address
               </label>
               <div className="relative">
-                <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-indigo-custom/60" />
                 <input
                   type="text"
                   id="messAddress"
                   name="messAddress"
                   value={formData.messAddress}
                   onChange={handleChange}
-                  className={`w-full pl-11 pr-4 py-3 border ${errors.messAddress ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none`}
+                  className={`w-full pl-11 pr-4 py-3 border-3 ${errors.messAddress ? 'border-red-500' : 'border-indigo-custom'} bg-white rounded-lg focus:ring-0 focus:border-primary transition-all outline-none font-medium`}
                   placeholder="123 Main Street, City"
                 />
               </div>
-              {errors.messAddress && <p className="text-red-500 text-sm mt-1">{errors.messAddress}</p>}
+              {errors.messAddress && <p className="text-red-500 text-sm font-bold mt-1">{errors.messAddress}</p>}
             </div>
 
             {errors.submit && (
-              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
+              <div className="bg-red-50 neo-border border-red-500 text-red-700 px-4 py-3 rounded-lg text-sm font-bold">
                 {errors.submit}
               </div>
             )}
@@ -190,7 +189,7 @@ function Signup() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-linear-to-r from-blue-500 to-purple-600 text-white py-3 rounded-lg font-semibold hover:from-blue-600 hover:to-purple-700 transition-all duration-200 flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
+              className="w-full btn-lifted bg-primary neo-border text-white py-4 rounded-xl font-black hover:from-blue-600 hover:to-purple-700 transition-all duration-200 flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-widest text-lg"
             >
               {isLoading ? (
                 <span>Creating Account...</span>
@@ -204,11 +203,11 @@ function Signup() {
           </form>
 
           <div className="mt-6 text-center">
-            <p className="text-gray-600 text-sm">
+            <p className="text-indigo-custom/70 text-sm font-medium">
               Already have an account?{" "}
               <button
                 onClick={() => navigate("/Login")}
-                className="text-blue-600 font-semibold hover:text-blue-700 transition-colors"
+                className="text-primary font-black hover:underline transition-all uppercase tracking-wide"
               >
                 Log In
               </button>
@@ -216,6 +215,57 @@ function Signup() {
           </div>
         </div>
       </div>
+
+      <style jsx>{`
+        .neo-border {
+          border: 3px solid #312e81;
+        }
+        .border-3 {
+          border-width: 3px;
+        }
+        .dot-pattern {
+          background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
+          background-size: 20px 20px;
+        }
+        .btn-lifted {
+          transition: all 0.2s ease;
+          box-shadow: 4px 4px 0px 0px #312e81;
+        }
+        .btn-lifted:hover {
+          transform: translate(2px, 2px);
+          box-shadow: 0px 0px 0px 0px #312e81;
+        }
+        .bg-primary {
+          background-color: #f87116;
+        }
+        .text-primary {
+          color: #f87116;
+        }
+        .bg-indigo-custom {
+          background-color: #312e81;
+        }
+        .text-indigo-custom {
+          color: #312e81;
+        }
+        .bg-yellow-custom {
+          background-color: #facc15;
+        }
+        .text-yellow-custom {
+          color: #facc15;
+        }
+        .bg-background-light {
+          background-color: #fffdf5;
+        }
+        .shadow-neo {
+          box-shadow: 4px 4px 0px 0px #312e81;
+        }
+        .shadow-neo-lg {
+          box-shadow: 8px 8px 0px 0px #312e81;
+        }
+        .font-display {
+          font-family: system-ui, -apple-system, sans-serif;
+        }
+      `}</style>
     </div>
   );
 }

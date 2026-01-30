@@ -3,7 +3,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import axios from "axios";
 import {
     Home, LogIn, UserPlus, LogOut, User, Menu, X,
-    Utensils, Crown, Sparkles, Star, AlertCircle
+    UtensilsCrossed, Crown, Sparkles, Star, AlertCircle
 } from 'lucide-react';
 
 // --- Reusable Nav Item Component for consistency ---
@@ -12,18 +12,18 @@ const NavItem = ({ to, icon: Icon, label, onClick, isPremium, className }) => (
         to={to}
         onClick={onClick}
         className={({ isActive }) =>
-            `relative flex items-center gap-2 px-4 py-2 rounded-xl font-medium transition-all duration-300 overflow-hidden group
+            `relative flex items-center gap-2 px-4 py-2.5 rounded-lg font-bold uppercase text-xs tracking-wide transition-all duration-200 neo-border whitespace-nowrap
        ${className || ''}
        ${isActive
                 ? (isPremium
-                    ? 'bg-linear-to-r from-yellow-400 to-amber-500 text-white shadow-lg shadow-amber-500/20 scale-[1.02]'
-                    : 'bg-linear-to-r from-blue-600 to-purple-600 text-white shadow-lg shadow-blue-500/20 scale-[1.02]')
-                : 'text-gray-300 hover:text-white hover:bg-white/10'
+                    ? 'bg-yellow-custom text-indigo-custom shadow-neo'
+                    : 'bg-primary text-white shadow-neo')
+                : 'bg-white text-indigo-custom hover:bg-yellow-custom/30 shadow-neo-sm hover:shadow-neo'
             }`
         }
         style={{ textDecoration: 'none' }}
     >
-        <Icon size={18} className="relative z-10" />
+        <Icon size={16} className="relative z-10 stroke-[2.5]" />
         <span className="relative z-10">{label}</span>
     </NavLink>
 );
@@ -69,14 +69,11 @@ function Header() {
 
     // Timer Logic
     useEffect(() => {
-        // console.log("hiii");
-
         let intervalId = null;
         axios.get(`${apiUrl}/user`, { withCredentials: true })
             .then(res => {
                 if (res.data.date_of_expire == null) return;
                 const target = new Date(res.data.date_of_expire);
-                // console.log(target);
 
                 const updateOnce = () => {
                     const now = new Date();
@@ -93,7 +90,6 @@ function Header() {
                     setHours(Math.floor((totalSec % (60 * 60 * 24)) / (60 * 60)));
                     setMinutes(Math.floor((totalSec % (60 * 60)) / 60));
                     setSeconds(totalSec % 60);
-
                 };
 
                 updateOnce();
@@ -107,18 +103,14 @@ function Header() {
     const handleLogout = async () => {
         try {
             await axios.post(`${apiUrl}/logout`, {}, { withCredentials: true });
-
             setUser(null);
             navigate("/login");
             setIsOpen(false);
-
             sessionStorage.removeItem("hasReloaded");
-
         } catch (err) {
             console.error("Logout error:", err);
         }
     };
-
 
     const handleSubscribe = () => {
         navigate("/subscription");
@@ -126,83 +118,81 @@ function Header() {
     };
 
     return (
-        <div className='flex flex-col relative z-50'>
+        <div className='flex flex-col relative z-50 font-display'>
             <nav className={`
                 w-full transition-all duration-300
                 ${subs
-                    ? 'bg-slate-900/90 border-b border-yellow-500/20'
-                    : 'bg-slate-900/90 border-b border-white/10'
-                } backdrop-blur-md sticky top-0
+                    ? 'bg-background-light border-b-4 border-yellow-custom dot-pattern'
+                    : 'bg-background-light border-b-4 border-indigo-custom dot-pattern'
+                } sticky top-0
             `}>
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex justify-between items-center h-16 sm:h-20">
+                    <div className="flex justify-between items-center h-16 sm:h-18">
 
                         {/* --- Logo --- */}
-                        <NavLink to="/" className="flex items-center gap-3 group" style={{ textDecoration: 'none' }}>
+                        <NavLink to="/" className="flex items-center gap-2 sm:gap-3 group" style={{ textDecoration: 'none' }}>
                             <div className={`
-                                p-2 rounded-xl transition-all duration-300 group-hover:scale-110 shadow-lg
-                                ${subs ? 'bg-linear-to-br from-yellow-400 to-amber-600' : 'bg-linear-to-br from-blue-500 to-purple-600'}
+                                p-2 sm:p-2.5 rounded-lg transition-all duration-300 group-hover:scale-110 neo-border shadow-neo
+                                ${subs ? 'bg-yellow-custom' : 'bg-primary'}
                             `}>
-                                <Utensils className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+                                <UtensilsCrossed className="w-5 h-5 sm:w-6 sm:h-6 text-white stroke-[2.5]" />
                             </div>
-                            <div className="flex items-center gap-2">
-                                <h1 className={`text-xl sm:text-2xl font-bold bg-clip-text text-transparent 
-                                    ${subs ? 'bg-linear-to-r from-yellow-400 to-amber-500' : 'bg-linear-to-r from-white to-gray-400'}
-                                `}>
+                            <div className="flex items-center gap-1.5 sm:gap-2">
+                                <h1 className="text-xl sm:text-2xl font-black tracking-tight text-indigo-custom">
                                     KarveMess
                                 </h1>
-                                {subs && <Crown className="w-4 h-4 text-yellow-400 animate-pulse hidden sm:block" />}
+                                {subs && <Crown className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-custom pulse-scale hidden xs:block stroke-[2.5]" />}
                             </div>
                         </NavLink>
 
                         {/* --- Desktop Navigation (Hidden on Mobile/Tablet) --- */}
-                        <div className="hidden lg:flex items-center gap-2">
+                        <div className="hidden xl:flex items-center gap-2">
                             {!loading && (
                                 <>
                                     {!user ? (
                                         <>
                                             <NavItem to="/" icon={Home} label="Home" />
-                                            <NavItem to="/Menu" icon={Utensils} label="Menu" />
-                                            <div className="h-6 w-px bg-white/10 mx-2"></div>
+                                            <NavItem to="/Menu" icon={UtensilsCrossed} label="Menu" />
+                                            <div className="h-6 w-0.5 bg-indigo-custom/20 mx-1"></div>
                                             <NavItem to="/Login" icon={LogIn} label="Login" />
                                             <NavItem to="/Signup" icon={UserPlus} label="Sign Up" />
                                         </>
                                     ) : (
                                         <>
-                                            <NavItem to="/Menu" icon={Utensils} label="Menu" />
-                                            <NavItem to={`/foodform?day=${dayName}`} icon={Utensils} label="Add Menu" />
+                                            <NavItem to="/Menu" icon={UtensilsCrossed} label="Menu" />
+                                            <NavItem to={`/foodform?day=${dayName}`} icon={UtensilsCrossed} label="Add Menu" />
 
                                             {/* Subscription Button (Desktop) */}
                                             {(!subs || minutes <= 0) && (
                                                 <button
                                                     onClick={handleSubscribe}
-                                                    className="flex items-center gap-2 px-4 py-2 ml-2 rounded-xl bg-linear-to-r from-yellow-400 to-amber-500 hover:from-yellow-300 hover:to-amber-400 text-white font-bold shadow-lg shadow-amber-500/20 hover:shadow-amber-500/40 transition-all duration-300 hover:scale-105"
+                                                    className="btn-lifted flex items-center gap-2 px-4 py-2.5 ml-1 rounded-lg bg-yellow-custom neo-border text-indigo-custom font-bold uppercase text-xs shadow-neo hover:bg-primary hover:text-white transition-all duration-200 whitespace-nowrap"
                                                 >
-                                                    <Crown size={16} />
-                                                    <span>Go Premium</span>
+                                                    <Crown size={16} className="stroke-[2.5]" />
+                                                    <span>Premium</span>
                                                 </button>
                                             )}
 
-                                            {/* User Profile Dropdown/Link (Desktop) */}
-                                            <div className="ml-4 pl-4 border-l border-white/10 flex items-center gap-4">
+                                            {/* User Profile (Desktop) */}
+                                            <div className="ml-2 pl-2 border-l-2 border-indigo-custom/20 flex items-center gap-2">
                                                 <NavLink
                                                     to='/user'
-                                                    className={`flex items-center gap-3 pl-2 pr-4 py-1.5 rounded-full transition-all duration-300 border hover:bg-white/5
-                                                        ${subs ? 'border-yellow-500/30' : 'border-transparent'}
+                                                    className={`btn-lifted flex items-center gap-2 pl-1.5 pr-3 py-1.5 rounded-full transition-all duration-200 neo-border bg-white shadow-neo hover:shadow-neo-lg
+                                                        ${subs ? 'border-yellow-custom' : 'border-indigo-custom'}
                                                     `}
                                                     style={{ textDecoration: 'none' }}
                                                 >
-                                                    <div className={`w-9 h-9 rounded-full flex items-center justify-center shadow-inner
-                                                        ${subs ? 'bg-linear-to-br from-yellow-400 to-amber-600' : 'bg-linear-to-br from-blue-500 to-purple-600'}
+                                                    <div className={`w-8 h-8 rounded-full flex items-center justify-center neo-border shadow-neo-sm shrink-0
+                                                        ${subs ? 'bg-yellow-custom' : 'bg-primary'}
                                                     `}>
-                                                        {subs ? <Crown size={16} className="text-white" /> : <User size={16} className="text-white" />}
+                                                        {subs ? <Crown size={14} className="text-white stroke-[2.5]" /> : <User size={14} className="text-white stroke-[2.5]" />}
                                                     </div>
-                                                    <div className="flex flex-col">
-                                                        <span className="text-sm font-semibold text-white leading-tight flex items-center gap-1">
-                                                            {user.fullName}
-                                                            {subs && <Star size={10} className="text-yellow-400 fill-yellow-400" />}
+                                                    <div className="flex flex-col min-w-0">
+                                                        <span className="text-xs font-black text-indigo-custom leading-tight flex items-center gap-1 truncate max-w-[120px]">
+                                                            <span className="truncate">{user.fullName}</span>
+                                                            {subs && <Star size={10} className="text-yellow-custom fill-yellow-custom shrink-0" />}
                                                         </span>
-                                                        <span className="text-xs text-gray-400 leading-tight max-w-[100px] truncate">
+                                                        <span className="text-[10px] text-indigo-custom/60 font-bold leading-tight uppercase">
                                                             {subs ? 'Premium' : 'Standard'}
                                                         </span>
                                                     </div>
@@ -210,10 +200,10 @@ function Header() {
 
                                                 <button
                                                     onClick={handleLogout}
-                                                    className="p-2 rounded-xl text-gray-400 hover:text-red-400 hover:bg-red-400/10 transition-colors"
+                                                    className="btn-lifted p-2 rounded-lg neo-border bg-white text-indigo-custom hover:bg-primary hover:text-white transition-all shadow-neo"
                                                     title="Logout"
                                                 >
-                                                    <LogOut size={20} />
+                                                    <LogOut size={16} className="stroke-[2.5]" />
                                                 </button>
                                             </div>
                                         </>
@@ -223,12 +213,12 @@ function Header() {
                         </div>
 
                         {/* --- Mobile Menu Button --- */}
-                        <div className="lg:hidden">
+                        <div className="xl:hidden">
                             <button
                                 onClick={toggleMenu}
-                                className="p-2 text-gray-300 hover:text-white hover:bg-white/10 rounded-xl transition-colors"
+                                className="btn-lifted p-2.5 neo-border bg-white text-indigo-custom hover:bg-primary hover:text-white rounded-lg transition-all shadow-neo"
                             >
-                                {isOpen ? <X size={24} /> : <Menu size={24} />}
+                                {isOpen ? <X size={20} className="stroke-[2.5]" /> : <Menu size={20} className="stroke-[2.5]" />}
                             </button>
                         </div>
                     </div>
@@ -236,62 +226,62 @@ function Header() {
 
                 {/* --- Mobile Navigation Drawer --- */}
                 <div className={`
-                    lg:hidden overflow-hidden transition-[max-height,opacity] duration-300 ease-in-out
-                    ${isOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}
-                    bg-slate-900 border-t border-white/5
+                    xl:hidden overflow-hidden transition-all duration-300 ease-in-out
+                    ${isOpen ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0'}
+                    bg-background-light border-t-4 border-indigo-custom/20
                 `}>
-                    <div className="px-4 py-4 space-y-2">
+                    <div className="px-4 py-6 space-y-3">
                         {!loading && (
                             <>
                                 {!user ? (
                                     <>
-                                        <NavItem to="/" icon={Home} label="Home" onClick={() => setIsOpen(false)} isMobile />
-                                        <NavItem to="/Menu" icon={Utensils} label="Menu" onClick={() => setIsOpen(false)} isMobile />
-                                        <div className="my-2 border-t border-white/10"></div>
-                                        <NavItem to="/Login" icon={LogIn} label="Login" onClick={() => setIsOpen(false)} isMobile />
-                                        <NavItem to="/Signup" icon={UserPlus} label="Sign Up" onClick={() => setIsOpen(false)} isMobile />
+                                        <NavItem to="/" icon={Home} label="Home" onClick={() => setIsOpen(false)} className="w-full justify-center" />
+                                        <NavItem to="/Menu" icon={UtensilsCrossed} label="Menu" onClick={() => setIsOpen(false)} className="w-full justify-center" />
+                                        <div className="my-4 border-t-3 border-indigo-custom/20"></div>
+                                        <NavItem to="/Login" icon={LogIn} label="Login" onClick={() => setIsOpen(false)} className="w-full justify-center" />
+                                        <NavItem to="/Signup" icon={UserPlus} label="Sign Up" onClick={() => setIsOpen(false)} className="w-full justify-center" />
                                     </>
                                 ) : (
                                     <>
                                         {/* Mobile User Profile Summary */}
                                         <div
                                             onClick={() => { navigate('/user'); setIsOpen(false); }}
-                                            className="flex items-center gap-3 p-3 mb-4 rounded-xl bg-white/5 border border-white/5 cursor-pointer"
+                                            className="btn-lifted flex items-center gap-3 p-4 mb-4 rounded-xl bg-white neo-border shadow-neo cursor-pointer hover:shadow-neo-lg"
                                         >
-                                            <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0
-                                                ${subs ? 'bg-linear-to-br from-yellow-400 to-amber-600' : 'bg-linear-to-br from-blue-500 to-purple-600'}
+                                            <div className={`w-12 h-12 rounded-full flex items-center justify-center shrink-0 neo-border shadow-neo
+                                                ${subs ? 'bg-yellow-custom' : 'bg-primary'}
                                             `}>
-                                                {subs ? <Crown size={20} className="text-white" /> : <User size={20} className="text-white" />}
+                                                {subs ? <Crown size={20} className="text-white stroke-[2.5]" /> : <User size={20} className="text-white stroke-[2.5]" />}
                                             </div>
                                             <div className="overflow-hidden">
-                                                <div className="text-white font-medium flex items-center gap-2">
-                                                    {user.fullName}
-                                                    {subs && <Star size={12} className="text-yellow-400 fill-yellow-400" />}
+                                                <div className="text-indigo-custom font-black flex items-center gap-2">
+                                                    <span className="truncate">{user.fullName}</span>
+                                                    {subs && <Star size={14} className="text-yellow-custom fill-yellow-custom" />}
                                                 </div>
-                                                <div className="text-sm text-gray-400 truncate">{user.email}</div>
+                                                <div className="text-sm text-indigo-custom/60 font-bold truncate uppercase">{subs ? 'Premium' : 'Standard'}</div>
                                             </div>
                                         </div>
 
-                                        <NavItem to="/Menu" icon={Utensils} label="Menu" onClick={() => setIsOpen(false)} isMobile />
-                                        <NavItem to={`/foodform?day=${dayName}`} icon={Utensils} label="Add Menu" onClick={() => setIsOpen(false)} isMobile />
+                                        <NavItem to="/Menu" icon={UtensilsCrossed} label="Menu" onClick={() => setIsOpen(false)} className="w-full justify-center" />
+                                        <NavItem to={`/foodform?day=${dayName}`} icon={UtensilsCrossed} label="Add Menu" onClick={() => setIsOpen(false)} className="w-full justify-center" />
 
-                                        <div className="my-3 border-t border-white/10"></div>
+                                        <div className="my-4 border-t-3 border-indigo-custom/20"></div>
 
-                                        {!subs && (
+                                        {(!subs || minutes <= 0) && (
                                             <button
                                                 onClick={handleSubscribe}
-                                                className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-linear-to-r from-yellow-400 to-amber-600 text-white font-bold shadow-lg"
+                                                className="btn-lifted w-full flex items-center justify-center gap-2 px-6 py-4 rounded-xl bg-yellow-custom neo-border text-indigo-custom font-black uppercase shadow-neo hover:bg-primary hover:text-white transition-all"
                                             >
-                                                <Sparkles size={18} />
+                                                <Sparkles size={20} className="stroke-[2.5]" />
                                                 <span>Upgrade to Premium</span>
                                             </button>
                                         )}
 
                                         <button
                                             onClick={handleLogout}
-                                            className="w-full flex items-center gap-2 px-4 py-3 mt-2 rounded-xl text-red-400 hover:bg-red-400/10 transition-colors"
+                                            className="btn-lifted w-full flex items-center justify-center gap-2 px-6 py-4 mt-3 rounded-xl neo-border bg-white text-primary hover:bg-primary hover:text-white font-black uppercase transition-all shadow-neo"
                                         >
-                                            <LogOut size={18} />
+                                            <LogOut size={20} className="stroke-[2.5]" />
                                             <span>Logout</span>
                                         </button>
                                     </>
@@ -304,17 +294,104 @@ function Header() {
 
             {/* --- Expiring Soon Banner --- */}
             {subs && minutes <= 0 && (
-                <div className='w-full bg-linear-to-r from-amber-500 via-orange-500 to-amber-500 shadow-lg'>
+                <div className='w-full bg-primary neo-border-bottom shadow-neo-lg'>
                     <div className='max-w-7xl mx-auto px-4 py-3 sm:px-6 lg:px-8'>
-                        <div className='flex items-center justify-center gap-2'>
-                            <AlertCircle className='w-5 h-5 text-white shrink-0' />
-                            <span className='font-medium text-sm sm:text-base text-white'>
-                                Plan expiring soon. Renew now to keep access.
+                        <div className='flex items-center justify-center gap-2 sm:gap-3'>
+                            <div className="size-8 sm:size-10 bg-yellow-custom neo-border rounded-full flex items-center justify-center shadow-neo wiggle shrink-0">
+                                <AlertCircle className='w-4 h-4 sm:w-5 sm:h-5 text-indigo-custom stroke-[2.5]' />
+                            </div>
+                            <span className='font-black text-sm sm:text-base text-white uppercase tracking-wide text-center'>
+                                Plan expiring soon. Renew now!
                             </span>
                         </div>
                     </div>
                 </div>
             )}
+
+            <style jsx>{`
+                .neo-border {
+                    border: 3px solid #312e81;
+                }
+                .neo-border-bottom {
+                    border-bottom: 4px solid #312e81;
+                }
+                .border-t-3 {
+                    border-top-width: 3px;
+                }
+                .dot-pattern {
+                    background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
+                    background-size: 20px 20px;
+                }
+                .btn-lifted {
+                    transition: all 0.2s ease;
+                }
+                .btn-lifted:active {
+                    transform: translate(2px, 2px);
+                }
+                .shadow-neo-sm {
+                    box-shadow: 2px 2px 0px 0px #312e81;
+                }
+                .shadow-neo {
+                    box-shadow: 4px 4px 0px 0px #312e81;
+                }
+                .shadow-neo-lg {
+                    box-shadow: 6px 6px 0px 0px #312e81;
+                }
+                .bg-primary {
+                    background-color: #f87116;
+                }
+                .text-primary {
+                    color: #f87116;
+                }
+                .bg-indigo-custom {
+                    background-color: #312e81;
+                }
+                .text-indigo-custom {
+                    color: #312e81;
+                }
+                .bg-yellow-custom {
+                    background-color: #facc15;
+                }
+                .text-yellow-custom {
+                    color: #facc15;
+                }
+                .bg-background-light {
+                    background-color: #fffdf5;
+                }
+                .font-display {
+                    font-family: system-ui, -apple-system, sans-serif;
+                }
+                
+                /* Animations */
+                @keyframes pulse-scale {
+                    0%, 100% {
+                        transform: scale(1);
+                    }
+                    50% {
+                        transform: scale(1.1);
+                    }
+                }
+                
+                @keyframes wiggle {
+                    0%, 100% {
+                        transform: rotate(0deg);
+                    }
+                    25% {
+                        transform: rotate(-5deg);
+                    }
+                    75% {
+                        transform: rotate(5deg);
+                    }
+                }
+                
+                .pulse-scale {
+                    animation: pulse-scale 2s ease-in-out infinite;
+                }
+                
+                .wiggle {
+                    animation: wiggle 2s ease-in-out infinite;
+                }
+            `}</style>
         </div>
     );
 }
