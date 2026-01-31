@@ -4,49 +4,69 @@ import FoodItem from "../models/foodItems.js";
 
 const router = Router();
 
-router.get("/", (req,res) => {
-    const user = req.user
+// get user details
+router.get("/", async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id).select(
+      "_id fullName role messName messAddress subscribed"
+    );
 
-    if (!user) {
-        return res.status(401).json({ message: "Unauthorized" });
-    }
-    
-    return res.json(user);
-})
+    if (!user) return res.status(404).json({ message: "User not found" });
 
-router.patch("/", async(req,res) => {
-    try {
-        // console.log("patch was called");
-        
-        const {chefid, subscribed, date_of_purchase, date_of_expire} = req.body;
-        const updateUser = await User.findByIdAndUpdate(chefid, {$set: {subscribed: false, date_of_purchase: null, date_of_expire: null}});
-        return res.status(200).json(updateUser);
-    } catch (error) {
-        console.log(error);
-        
-    }
-})
+    return res.status(200).json(user);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+});
 
+
+// update the user's specific details
+router.patch("/", async (req, res) => {
+  try {
+    const { subscribed, date_of_purchase, date_of_expire } = req.body;
+
+    // Only allow users to update their own subscription
+    const updateData = {
+      subscribed: subscribed ?? false,
+      date_of_purchase: date_of_purchase ?? null,
+      date_of_expire: date_of_expire ?? null,
+    };
+
+    const updatedUser = await User.findByIdAndUpdate(
+      req.user._id,
+      { $set: updateData },
+      { new: true, select: "_id fullName role messName messAddress subscribed" }
+    );
+
+    if (!updatedUser) return res.status(404).json({ message: "User not found" });
+
+    return res.status(200).json(updatedUser);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+
+// delete the user's specific details
 router.delete("/", async (req, res) => {
-    try {
-        const today = new Date();
-        const day = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
-        const today_Day = day[today.getDay()];
-        // console.log("deleted item");
-        
-        await FoodItem.deleteMany({
-            chefId: req.user._id,
-            day: { $ne: today_Day }
-        });
-        return res.status(204).send();
+  try {
+    const today = new Date();
+    const dayNames = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+    const todayDay = dayNames[today.getDay()];
 
-    } catch (error) {
-        console.log("error iind dlt ");
+    await FoodItem.deleteMany({
+      chefId: req.user._id,
+      day: { $ne: todayDay },
+    });
 
-        console.error(error);
-        return res.status(500).json({ error: "Internal server error" });
-    }
-})
+    return res.status(204).send();
+  } catch (error) {
+    console.error("Error deleting food items:", error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+});
 
 
 export default router;
