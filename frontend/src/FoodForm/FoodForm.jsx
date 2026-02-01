@@ -141,7 +141,7 @@ function FoodForm() {
                 {foods.map((food, index) => (
                   <div 
                     key={index} 
-                    className="group relative flex items-start gap-3 p-3 rounded-xl hover:bg-yellow-custom/10 transition-all duration-200"
+                    className="group relative flex items-start gap-3 rounded-xl hover:bg-yellow-custom/10 transition-all duration-200"
                   >
                     {/* Count Badge */}
                     <div className="pt-3 pl-1">
