@@ -1,80 +1,117 @@
-import { instance } from "../index.js"
-import crypto from "crypto"
-import User from "../models/user.js"
+import { instance } from "../config/razorpay.js";
+import crypto from "crypto";
+import User from "../models/user.js";
 
-export const processPayment = async (req, res) => {
-  const option = {
-    amount: Number(req.body.amount * 10),
-    currency: "INR",
+// function for creating payment order
+export const paymentOrder = async (req, res) => {
+  try {
+    // creating the options for the order
+    const options = {
+      amount: Number(req.body.amount) * 100,
+      currency: "INR",
+      receipt: `receipt_order_${Date.now() + Math.floor(Math.random() * 10)}`,
+    };
+
+    const order = await instance.orders.create(options); // creating the order
+    if (!order)
+      return res.status(500).json({
+        success: false,
+        message: "Some error occurred while creating order",
+      }); // return error if order is not able to be created
+
+    return res.status(200).json({ success: true, order });
+  } catch (err) {
+    console.error("[PAYMENT ORDER ERROR]: ", err);
+    return res
+      .status(500)
+      .json({ success: false, message: "Internal server error" });
   }
+};
 
-  const order = await instance.orders.create(option);
-
-  res.status(200).json({
-    success: true,
-    order
-  })
-}
-
+// function for getting razorpay key
 export const getKey = (req, res) => {
+  if (!process.env.RAZORPAY_API_KEY) {
+    return res.status(500).json({
+      message: "RAZORPAY_API_KEY not configured",
+    });
+  }
   res.status(200).json({
-    key: process.env.RAZORPAY_API_KEY
-  })
-}
+    key: process.env.RAZORPAY_API_KEY,
+  });
+};
 
-
+// function for verifying payment
 export const paymentVerification = async (req, res) => {
   try {
-    const { razorpay_payment_id, razorpay_order_id, razorpay_signature } = req.body;
-    if (!razorpay_payment_id || !razorpay_order_id || !razorpay_signature) {
-      return res.status(400).json({ success: false, message: 'Missing payment fields' });
-    }
+    const { razorpay_payment_id, razorpay_order_id, razorpay_signature } =
+      req.body;
 
+    if (!razorpay_payment_id || !razorpay_order_id || !razorpay_signature) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Missing payment fields" });
+    } // validating the required fields
+
+    // checking razorpay secrets are loaded properly or not
     const secret = process.env.RAZORPAY_API_SECRET;
     if (!secret) {
-      console.error('Missing RAZORPAY_API_SECRET env var!');
-      return res.status(500).json({ success: false, message: 'Server misconfiguration' });
+      console.error("Missing RAZORPAY_API_SECRET environment variable");
+      return res
+        .status(500)
+        .json({ success: false, message: "Server misconfiguration" });
     }
 
-    const body = `${razorpay_order_id}|${razorpay_payment_id}`;
-    const expectedSignature = crypto.createHmac('sha256', secret).update(body.toString()).digest('hex');
-    const isAuthentic = expectedSignature === razorpay_signature;
+    // verifying the signature
+    const bodyString = `${razorpay_order_id}|${razorpay_payment_id}`;
+    const expectedSignature = crypto
+      .createHmac("sha256", secret)
+      .update(bodyString)
+      .digest("hex");
 
-    if (!isAuthentic) {
-      console.warn('Signature mismatch', { expectedSignature, razorpay_signature });
-      return res.status(400).json({ success: false, message: 'Invalid signature' });
-    }
+    if (expectedSignature !== razorpay_signature) {
+      console.warn("Payment signature mismatch", {
+        expectedSignature,
+        razorpay_signature,
+      });
+      return res
+        .status(400)
+        .json({ success: false, message: "Invalid payment signature" });
+    } // return error if the signature does not match
 
-    // Determine userId safely:
-    // Option A (preferred if request has auth): req.user set by auth middleware
-    let userId = req.user?._id;
-    // Option B (if this endpoint is called by Razorpay/webhook): expect userId in body or find via order metadata
-    if (!userId) userId = req.body.userId || null;
-
+    // identifying the user to update the subscription
+    const userId = req.user?._id || req.body.userId;
     if (!userId) {
-      // If you can't identify user, don't crash — return an error and log for debugging
-      console.error('No userId provided and no authenticated user. req.user:', !!req.user);
-      return res.status(400).json({ success: false, message: 'User identification missing' });
+      console.error(
+        "Cannot identify user: req.user missing and no userId in body",
+      );
+      return res
+        .status(400)
+        .json({ success: false, message: "User identification missing" });
     }
 
-    const date_of_purchase = new Date();
-    const date_of_expire = new Date();
-    date_of_expire.setMinutes(date_of_expire.getMinutes() + 2);
+    // updating user's subscription status
+    const now = new Date();
+    const expireDate = new Date(now);
+    expireDate.setMinutes(expireDate.getMinutes() + 10); 
+    // subscription valid for 10 minutes for testing but in real it will be days or months accordingly
 
-    await User.findByIdAndUpdate(userId, {
-      subscribed: true,
-      date_of_purchase,
-      date_of_expire
-    }, { new: true });
+    await User.findByIdAndUpdate(
+      userId,
+      {
+        subscribed: true,
+        date_of_purchase: now,
+        date_of_expire: expireDate,
+      },
+      { new: true },
+    );
 
-    return res.status(200).json({
-      success: true,
-      message: "Payment verified"
-    });
-
-
+    return res
+      .status(200)
+      .json({ success: true, message: "Payment verified successfully" });
   } catch (err) {
-    console.error('paymentVerification error:', err);
-    return res.status(500).json({ success: false, message: 'Internal server error' });
+    console.error("paymentVerification error:", err);
+    return res
+      .status(500)
+      .json({ success: false, message: "Internal server error" });
   }
 };

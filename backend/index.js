@@ -1,59 +1,25 @@
-import express from "express"
-import dotenv from "dotenv"
-import mongoose from "mongoose";
-import cors from "cors"
-import statcRouter from "./routes/staticRouter.js"; 
-import userRouter from "./routes/userRouter.js";
-import fooditemsRouter from "./routes/fooditemsRouter.js";
-import cookieParser from "cookie-parser";
-import {checkForAuthentication, restrictTo} from "./middleware/auth.js"
-import menuRouter from "./routes/menuRouter.js";
-import myItemsRouter from "./routes/myItemsRouter.js";
-import editItemRouter from "./routes/editItemRouter.js";
-import paymentRoutes from "./routes/paymentRoutes.js"
-import Razorpay from "razorpay"
+import "dotenv/config"; // importing the enviroment variables
+import app from "./app.js";
+import { dbConnection } from "./config/dbConnection.js";
+import { initRazorpay } from "./config/razorpay.js";
 
-dotenv.config();
+const PORT = process.env.PORT || 3000;
 
-// mongoose.connect(process.env.MONGO_URL).then(e=> console.log("MongoDB Connected")).catch(err => console.error(err))
+const startServer = async () => {
+  try {
+    await dbConnection();
 
-const connectDB = async () => {
-  if (mongoose.connection.readyState >= 1) return;
+    initRazorpay();
 
-  await mongoose.connect(process.env.MONGO_URL);
-  console.log("MongoDB Connected");
+    app.use(morgan("combined"));
+
+    app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
+    });
+  } catch (err) {
+    console.error("Failed to start server:", err);
+    process.exit(1);
+  }
 };
 
-connectDB();
-
-const app = express()
-
-app.set('trust proxy', 1);
-app.use(express.urlencoded({extended:true}));
-app.use(cors({ origin: `${process.env.FRONTEND_URL}`, credentials: true }));
-app.use(express.json());
-app.use(cookieParser());
-app.use("/", statcRouter);
-app.use(checkForAuthentication)
-app.use("/user", restrictTo(), userRouter);
-app.use("/fooditems",restrictTo(), fooditemsRouter);
-app.use("/menu", menuRouter);
-app.use("/myItems", myItemsRouter);
-app.use("/editItem", editItemRouter);
-app.use("/api",paymentRoutes);
-
-app.get("/api", (req,res) => {
-    // console.log(req.user._id);
-    return res.json({mssg: "Hello World"});
-})
-
-export const instance = new Razorpay({
-    key_id: process.env.RAZORPAY_API_KEY,
-    key_secret: process.env.RAZORPAY_API_SECRET
-})
-
-const PORT = process.env.PORT || 9000
-
-// app.listen(PORT, () => console.log(`Server Running at http://localhost:${PORT}`));
-
-export default app;
+startServer();

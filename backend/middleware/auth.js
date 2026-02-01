@@ -1,31 +1,38 @@
-import {validateToken} from '../services/authentication.js'
-import User from '../models/user.js';
+import { validateToken } from "../services/token.js";
+import User from "../models/user.js";
 
+// exporting async function to check for authentication
 export async function checkForAuthentication(req, res, next) {
-  const tokenCookie = req.cookies?.token;
+  const token = req.cookies?.token;
   req.user = null;
 
-  if (!tokenCookie) return next();
+  if (!token) return res.status(401).json({ message: "Unauthorized" });
 
   try {
-    const payload = validateToken(tokenCookie); // throws if invalid
+    const payload = validateToken(token); // throws if invalid
     // fetch the current user from DB (live data)
     const user = await User.findById(payload._id).select("-password"); // exclude sensitive fields
     if (!user) {
-      return next();
+      return res.status(401).json({ message: "User not found" });
     }
     req.user = user; // attach live Mongoose document
     return next();
   } catch (err) {
-    // token invalid or DB error — treat as unauthenticated
     console.error("Auth middleware error:", err.message);
-    return next();
+    return res.status(401).json({ message: "Unauthorized" });
   }
-} 
+}
 
-export function restrictTo(){
-    return function(req,res,next){
-        if(!req.user) return res.status(401).json({message: "Unauthorized"});
-        return next();
+// exporting function to restrict access based on roles
+export function restrictTo(...roles) {
+  return function (req, res, next) {
+    if (!req.user) return res.status(401).json({ message: "Unauthorized" });
+    if (!roles.includes(req.user.role)) {
+      return res
+        .status(403)
+        .json({ message: "Forbidden: Insufficient permissions" });
     }
+
+    next();
+  };
 }

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { validateToken } from "../services/authentication.js";
+import { validateToken } from "../services/token.js";
 import FoodItem from "../models/foodItems.js";
 // import client from "../client.js";
 
