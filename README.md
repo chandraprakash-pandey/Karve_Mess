@@ -25,7 +25,7 @@ Built using the **MERN Stack**, the project focuses on real-world backend logic,
 **Frontend**
 - React.js
 - Axios
-- CSS / Tailwind (if used)
+- CSS / Tailwind
 
 **Backend**
 - Node.js
