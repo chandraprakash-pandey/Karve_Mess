@@ -131,7 +131,6 @@ function UserDashboard() {
                         </div>
                         <h1 className="text-5xl font-black text-indigo-custom mb-2 flex items-center uppercase tracking-tight">
                             Dashboard
-                            <Sparkles className="w-10 h-10 text-yellow-custom ml-4 pulse-scale stroke-[2.5]" />
                         </h1>
                         <p className="text-indigo-custom/70 font-bold uppercase tracking-wide">Welcome to your premium experience</p>
                     </div>
@@ -145,7 +144,6 @@ function UserDashboard() {
                             <div className="ml-4">
                                 <div className="flex items-center gap-2">
                                     <h2 className="text-3xl font-black text-indigo-custom uppercase tracking-tight">{user.fullName}</h2>
-                                    <Crown className="w-7 h-7 text-yellow-custom fill-yellow-custom stroke-[2.5]" />
                                 </div>
                                 <div className="flex items-center mt-1 gap-2">
                                     <p className="text-indigo-custom/70 font-bold uppercase text-sm">Premium Mess Owner</p>
