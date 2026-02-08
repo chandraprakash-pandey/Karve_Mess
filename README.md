@@ -38,8 +38,3 @@ Built using the **MERN Stack**, the project focuses on real-world backend logic,
 - Redis (for caching – optional/learning)
 - Git & GitHub
 - Postman
-
----
-
-## 🏗️ Project Architecture
-
