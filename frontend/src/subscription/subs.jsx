@@ -159,7 +159,7 @@ function Subs() {
                             <div className='mb-8 bg-primary/10 neo-border p-6 rounded-xl shadow-neo-sm'>
                                 <div className='flex items-baseline gap-2'>
                                     <span className='text-6xl font-black text-indigo-custom'>₹1</span>
-                                    <span className='text-indigo-custom/70 font-bold'>/month</span>
+                                    <span className='text-indigo-custom/70 font-bold'>/5 minutes</span>
                                 </div>
                                 <p className='text-sm text-indigo-custom/70 mt-2 font-medium'>Billed Mothly</p>
                             </div>
